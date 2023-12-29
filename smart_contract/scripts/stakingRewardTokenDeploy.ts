@@ -2,13 +2,13 @@ import { ethers } from "hardhat";
 const hre = require("hardhat");
 
 async function main() {
-  const StakingToken = await ethers.getContractFactory("StakingToken");
+  const ERC20Token = await ethers.getContractFactory("ERC20Token");
   const RewardToken = await ethers.getContractFactory("RewardToken");
 
-  const stakeToken = await StakingToken.deploy();
+  const token = await ERC20Token.deploy();
   const rewardToken = await RewardToken.deploy();
 
-  console.log("Staking Token Address-> ", stakeToken.address);
+  console.log("ERC20 Token Address-> ", token.address);
   console.log("Reward Token Address-> ", rewardToken.address);
 }
 

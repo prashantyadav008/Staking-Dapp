@@ -6,8 +6,8 @@ export async function basicMethod() {
   const [deployer, ...users] = await ethers.getSigners();
 
   // Deploy Token Contract
-  const tokens = await ethers.getContractFactory("StakingToken");
-  const stakingToken = await tokens.deploy();
+  const tokens = await ethers.getContractFactory("ERC20Token");
+  const token = await tokens.deploy();
 
   // Deploy Token Contract
   const RewardToken = await ethers.getContractFactory("RewardToken");
@@ -16,18 +16,18 @@ export async function basicMethod() {
   // Deploy Token Contract
   const StakeContract = await ethers.getContractFactory("StakeContract");
   const stakeContract = await StakeContract.deploy(
-    stakingToken.address,
+    token.address,
     rewardToken.address,
   );
 
   for (let i = 0; i < 10; i++) {
-    await stakingToken.mint(users[i].address, decimal(200));
+    await token.mint(users[i].address, decimal(200));
   }
 
   return {
     deployer,
     users,
-    stakingToken,
+    token,
     rewardToken,
     stakeContract,
   };

@@ -9,7 +9,7 @@ describe("Reward Token Contract", () => {
       const { deployer, rewardToken } = await loadFixture(basicMethod);
 
       expect(await rewardToken.name()).to.be.equal("Reward Token");
-      expect(await rewardToken.symbol()).to.be.equal("Reward Token");
+      expect(await rewardToken.symbol()).to.be.equal("REWARD");
       expect(await rewardToken.decimals()).to.be.equal(big("18"));
 
       expect(await rewardToken.owner()).to.equal(deployer.address);
