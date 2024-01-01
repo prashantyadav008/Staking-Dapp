@@ -11,13 +11,13 @@ pragma solidity ^0.8.9;
 interface IStake {
     struct Package {
         uint inDays;
-        uint percentage;
+        uint percentageInBips;
     }
 
     struct StakeHolder {
         uint stakeAmount;
         uint inDays;
-        uint percentage;
+        uint percentageInBips;
         uint totalClaimedReward;
         uint createdAt;
     }
