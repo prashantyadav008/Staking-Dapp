@@ -5,6 +5,13 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./interfaces/IRewardToken.sol";
 import "./interfaces/IStake.sol";
 
+/**
+Todo
+1. Update Staking Token Method.
+2. Create Withdrawal Token Method.
+3. Create Calculate Token Method.
+*/
+
 contract StakeContract is IStake {
     address public owner;
     IERC20 public stakingToken;
@@ -15,6 +22,7 @@ contract StakeContract is IStake {
     mapping(address => StakeHolder) private _stakes;
 
     constructor(IERC20 _stakingToken, IRewardToken _rewardToken) {
+        owner = msg.sender;
         stakingToken = _stakingToken;
         rewardToken = _rewardToken;
     }
@@ -35,12 +43,15 @@ contract StakeContract is IStake {
         _;
     }
 
-    function addUpdatePackages(
+    function addPackages(
         uint _inDays,
-        uint _percentage
+        uint _percentageInBips
     ) external onlyOwner {
-        require(_inDays > 0 && _percentage > 0, "Stake: Value is Invalid!");
-        packages.push(Package(_inDays, _percentage));
+        require(
+            _inDays > 0 && _percentageInBips > 100,
+            "Stake: Value is Invalid!"
+        );
+        packages.push(Package(_inDays, _percentageInBips));
     }
 
     function viewAllPAckages() external view returns (Package[] memory) {
@@ -51,7 +62,10 @@ contract StakeContract is IStake {
         uint _stakeAmount,
         uint packageId
     ) external isValidPackage(packageId) {
-        require(_stakeAmount > 0, "Stake: Stake Amount not enough!");
+        require(
+            _stakeAmount > 10000,
+            "Stake: Stake Amount is greater than 10000!"
+        );
 
         require(
             stakingToken.balanceOf(msg.sender) >= _stakeAmount,
@@ -63,7 +77,7 @@ contract StakeContract is IStake {
         StakeHolder memory s1;
         s1.stakeAmount = _stakeAmount;
         s1.inDays = p1.inDays;
-        s1.percentage = p1.percentage;
+        s1.percentageInBips = p1.percentageInBips;
         s1.totalClaimedReward = 0;
         s1.createdAt = block.timestamp;
         _stakes[msg.sender] = s1;
