@@ -26,16 +26,16 @@ describe("Staking Token Contract", () => {
       );
 
       await stakeContract.connect(deployer).addPackages(7, 200);
-      await stakeContract.connect(deployer).addPackages(14, 500);
-      await stakeContract.connect(deployer).addPackages(30, 1000);
-      await stakeContract.connect(deployer).addPackages(60, 2000);
+      await stakeContract.connect(deployer).addPackages(14, 350);
+      await stakeContract.connect(deployer).addPackages(30, 500);
+      await stakeContract.connect(deployer).addPackages(60, 1000);
 
       expect(await stakeContract.viewAllPAckages()).to.have.deep.members(
         [
           [big(7), big(200)],
-          [big(14), big(500)],
-          [big(30), big(1000)],
-          [big(60), big(2000)]
+          [big(14), big(350)],
+          [big(30), big(500)],
+          [big(60), big(1000)]
         ]
       );
     });
@@ -46,24 +46,24 @@ describe("Staking Token Contract", () => {
       );
 
       await stakeContract.connect(deployer).addPackages(7, 200);
-      await stakeContract.connect(deployer).addPackages(14, 500);
-      await stakeContract.connect(deployer).addPackages(30, 1000);
-      await stakeContract.connect(deployer).addPackages(60, 2000);
+      await stakeContract.connect(deployer).addPackages(14, 350);
+      await stakeContract.connect(deployer).addPackages(30, 500);
+      await stakeContract.connect(deployer).addPackages(60, 1000);
 
       expect(await stakeContract.packages(0)).to.have.deep.members(
         [big(7), big(200)],
       );
 
       expect(await stakeContract.packages(1)).to.have.deep.members(
-        [big(14), big(500)],
+        [big(14), big(350)],
       );
 
       expect(await stakeContract.packages(2)).to.have.deep.members(
-        [big(30), big(1000)]
+        [big(30), big(500)]
       );
 
       expect(await stakeContract.packages(3)).to.have.deep.members(
-        [big(60), big(2000)]
+        [big(60), big(1000)]
       );
     });
 

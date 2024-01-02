@@ -44,14 +44,16 @@ contract StakeContract is IStake {
     }
 
     function addPackages(
-        uint _inDays,
-        uint _percentageInBips
+        uint _percentageInBips,
+        uint _inDays
     ) external onlyOwner {
         require(
             _inDays > 0 && _percentageInBips > 100,
             "Stake: Value is Invalid!"
         );
-        packages.push(Package(_inDays, _percentageInBips));
+
+        uint dayInSecond = 24 * 60 * 60;
+        packages.push(Package(_percentageInBips, _inDays * dayInSecond));
     }
 
     function viewAllPAckages() external view returns (Package[] memory) {
@@ -76,10 +78,19 @@ contract StakeContract is IStake {
 
         StakeHolder memory s1;
         s1.stakeAmount = _stakeAmount;
-        s1.inDays = p1.inDays;
-        s1.percentageInBips = p1.percentageInBips;
         s1.totalClaimedReward = 0;
         s1.createdAt = block.timestamp;
+        s1.percentageInBips = p1.percentageInBips;
+        s1.inDays = p1.inDays;
+
         _stakes[msg.sender] = s1;
+    }
+
+    function calculateStake(address userAddress) external view returns (uint) {
+        StakeHolder memory s1 = _stakes[userAddress];
+
+        uint t = (s1.stakeAmount * s1.percentageInBips) / 10000;
+        uint t1 = (t * 10 ** 18) / s1.inDays;
+        return t1;
     }
 }
