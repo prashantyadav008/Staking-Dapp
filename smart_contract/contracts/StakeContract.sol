@@ -19,7 +19,7 @@ contract StakeContract is IStake {
 
     Package[] public packages;
 
-    mapping(address => StakeHolder) private _stakes;
+    mapping(address => StakeHolder[]) private _stakes;
 
     constructor(IERC20 _stakingToken, IRewardToken _rewardToken) {
         owner = msg.sender;
@@ -75,7 +75,6 @@ contract StakeContract is IStake {
         );
 
         Package memory p1 = packages[packageId];
-
         StakeHolder memory s1;
         s1.stakeAmount = _stakeAmount;
         s1.totalClaimedReward = 0;
@@ -83,14 +82,34 @@ contract StakeContract is IStake {
         s1.percentageInBips = p1.percentageInBips;
         s1.inDays = p1.inDays;
 
-        _stakes[msg.sender] = s1;
+        _stakes[msg.sender].push(s1);
     }
 
-    function calculateStake(address userAddress) external view returns (uint) {
-        StakeHolder memory s1 = _stakes[userAddress];
+    function calculateStake(
+        address userAddress,
+        uint indexing
+    ) public view returns (uint) {
+        StakeHolder memory s1 = _stakes[userAddress][indexing];
 
         uint t = (s1.stakeAmount * s1.percentageInBips) / 10000;
         uint t1 = (t * 10 ** 18) / s1.inDays;
         return t1;
+    }
+
+    function withdrawalTokens(uint indexing) external {
+        StakeHolder memory s1 = _stakes[msg.sender][indexing];
+
+        require(
+            block.timestamp > s1.inDays,
+            "Stake: Staking Time not Completed!"
+        );
+
+        require(s1.totalClaimedReward == 0, "Stake: Already Withdrawal TOken!");
+
+        uint tokens = calculateStake(msg.sender, indexing);
+
+        _stakes[msg.sender][indexing].totalClaimedReward = tokens;
+
+        rewardToken.mint(msg.sender, tokens);
     }
 }
