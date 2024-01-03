@@ -87,12 +87,29 @@ contract StakeContract is IStake {
 
     function calculateStake(
         address userAddress,
-        uint index
-    ) external view returns (uint) {
-        StakeHolder memory s1 = _stakes[userAddress][index];
+        uint indexing
+    ) public view returns (uint) {
+        StakeHolder memory s1 = _stakes[userAddress][indexing];
 
         uint t = (s1.stakeAmount * s1.percentageInBips) / 10000;
         uint t1 = (t * 10 ** 18) / s1.inDays;
         return t1;
+    }
+
+    function withdrawalTokens(uint indexing) external {
+        StakeHolder memory s1 = _stakes[msg.sender][indexing];
+
+        require(
+            block.timestamp > s1.inDays,
+            "Stake: Staking Time not Completed!"
+        );
+
+        require(s1.totalClaimedReward == 0, "Stake: Already Withdrawal TOken!");
+
+        uint tokens = calculateStake(msg.sender, indexing);
+
+        _stakes[msg.sender][indexing].totalClaimedReward = tokens;
+
+        rewardToken.mint(msg.sender, tokens);
     }
 }
