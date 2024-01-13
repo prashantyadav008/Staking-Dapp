@@ -12,6 +12,7 @@ interface IStake {
     struct Package {
         uint percentageInBips;
         uint inDays;
+        bool active;
     }
 
     struct StakeHolder {
@@ -20,5 +21,6 @@ interface IStake {
         uint percentageInBips;
         uint totalClaimedReward;
         uint createdAt;
+        bool claimed;
     }
 }

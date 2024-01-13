@@ -1,12 +1,12 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 
-import { big, decimal, basicMethod } from "./index";
+import { indexer } from "./fixtures/commonMethods";
 
-describe("Staking Token Contract", () => {
+describe("ERC20 Token Contract", () => {
   describe("Mint to Address", () => {
     it("Should check Stake Token Basic Detail", async () => {
-      const { deployer, token, users } = await loadFixture(basicMethod);
+      const { deployer, token, users, big, decimal, } = await loadFixture(indexer);
 
       expect(await token.name()).to.be.equal("Staking Token");
       expect(await token.symbol()).to.be.equal("STAKE");
@@ -14,31 +14,23 @@ describe("Staking Token Contract", () => {
 
       expect(await token.owner()).to.equal(deployer.address);
 
-      expect(await token.totalSupply()).to.be.equal(decimal(2000));
-      expect(await token.balanceOf(deployer.address)).to.be.equal(
-        decimal(0),
-      );
+      expect(await token.totalSupply()).to.be.equal(decimal(20000));
+      expect(await token.balanceOf(deployer.address)).to.be.equal(decimal(0));
 
       for (let i = 0; i < 10; i++) {
         expect(await token.balanceOf(users[i].address)).to.be.equal(
-          decimal(200),
+          decimal(2000),
         );
       }
     });
 
     it("should check all working transfer amout or not", async () => {
-      const { token, users } = await loadFixture(basicMethod);
+      const { token, users, decimal, } = await loadFixture(indexer);
 
-      await token
-        .connect(users[1])
-        .transfer(users[2].address, decimal(150));
+      await token.connect(users[1]).transfer(users[2].address, decimal(150));
 
-      expect(await token.balanceOf(users[1].address)).to.be.equal(
-        decimal(50),
-      );
-      expect(await token.balanceOf(users[2].address)).to.be.equal(
-        decimal(350),
-      );
+      expect(await token.balanceOf(users[1].address)).to.be.equal(decimal(1850));
+      expect(await token.balanceOf(users[2].address)).to.be.equal(decimal(2150));
     });
   });
 });

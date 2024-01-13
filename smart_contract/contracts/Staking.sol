@@ -12,12 +12,14 @@ Todo
 3. Create Calculate Token Method.
 */
 
-contract StakeContract is IStake {
+contract Staking is IStake {
     address public owner;
     IERC20 public stakingToken;
     IRewardToken public rewardToken;
 
-    Package[] public packages;
+    uint public totalPackages;
+
+    mapping(uint => Package) public packages;
 
     mapping(address => StakeHolder[]) private _stakes;
 
@@ -37,7 +39,7 @@ contract StakeContract is IStake {
 
     modifier isValidPackage(uint packageId) {
         require(
-            packageId > 0 && packageId <= packages.length,
+            packageId > 0 && packageId <= totalPackages,
             "Stake: Invalid Package Id!"
         );
         _;
@@ -47,23 +49,47 @@ contract StakeContract is IStake {
         uint _percentageInBips,
         uint _inDays
     ) external onlyOwner {
+        unchecked {
+            totalPackages++;
+        }
+        require(
+            _percentageInBips > 100 && _inDays > 0,
+            "Stake: Value is Invalid!"
+        );
+
+        uint dayInSecond = 24 * 60 * 60;
+        Package memory p1;
+        p1.percentageInBips = _percentageInBips;
+        p1.inDays = _inDays * dayInSecond;
+        p1.active = true;
+        packages[totalPackages] = p1;
+    }
+
+    function updatePackages(
+        uint packageId,
+        uint _percentageInBips,
+        uint _inDays,
+        bool active
+    ) external onlyOwner isValidPackage(packageId) {
         require(
             _inDays > 0 && _percentageInBips > 100,
             "Stake: Value is Invalid!"
         );
 
         uint dayInSecond = 24 * 60 * 60;
-        packages.push(Package(_percentageInBips, _inDays * dayInSecond));
-    }
-
-    function viewAllPAckages() external view returns (Package[] memory) {
-        return packages;
+        Package memory p1 = packages[packageId];
+        p1.percentageInBips = _percentageInBips;
+        p1.inDays = _inDays * dayInSecond;
+        p1.active = active;
+        packages[packageId] = p1;
     }
 
     function stakeToken(
         uint _stakeAmount,
         uint packageId
     ) external isValidPackage(packageId) {
+        Package memory p1 = packages[packageId];
+
         require(
             _stakeAmount > 10000,
             "Stake: Stake Amount is greater than 10000!"
@@ -74,7 +100,11 @@ contract StakeContract is IStake {
             "Stake: Not Enough Token!"
         );
 
-        Package memory p1 = packages[packageId];
+        require(
+            p1.active,
+            "Stake: Package not Active Yet!"
+        );
+
         StakeHolder memory s1;
         s1.stakeAmount = _stakeAmount;
         s1.totalClaimedReward = 0;
@@ -104,7 +134,7 @@ contract StakeContract is IStake {
             "Stake: Staking Time not Completed!"
         );
 
-        require(s1.totalClaimedReward == 0, "Stake: Already Withdrawal TOken!");
+        require(!s1.claimed, "Stake: Reward Token already withdrawal!");
 
         uint tokens = calculateStake(msg.sender, indexing);
 

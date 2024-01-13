@@ -1,7 +1,7 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 
-import { big, decimal, basicMethod } from "./index";
+import { big, decimal, basicMethod } from "./fixtures/index";
 
 describe("Reward Token Contract", () => {
   describe("Mint to Address", () => {
@@ -21,10 +21,12 @@ describe("Reward Token Contract", () => {
     });
 
     it("Should check all working transfer amout or not", async () => {
-      const { rewardToken, users } = await loadFixture(basicMethod);
+      const { rewardToken, users, deployer } = await loadFixture(basicMethod);
       let amount = decimal(200);
 
-      await rewardToken.mint(users[1].address, amount);
+      await rewardToken.connect(deployer).setStaking(deployer.address);
+
+      await rewardToken.connect(deployer).mint(users[1].address, amount);
 
       await rewardToken
         .connect(users[1])
@@ -39,32 +41,34 @@ describe("Reward Token Contract", () => {
     });
 
     it("Should check Set Staking Contract Address", async () => {
-      const { deployer, rewardToken, stakeContract } = await loadFixture(
-        basicMethod,
-      );
-      expect(await rewardToken.stakeContract()).to.equal(
+      const { deployer, rewardToken, staking } = await loadFixture(basicMethod);
+      expect(await rewardToken.staking()).to.equal(
         "0x0000000000000000000000000000000000000000",
       );
-      await rewardToken
-        .connect(deployer)
-        .setStakeContract(stakeContract.address);
+      await rewardToken.connect(deployer).setStaking(staking.address);
 
-      expect(await rewardToken.stakeContract()).to.equal(stakeContract.address);
+      expect(await rewardToken.staking()).to.equal(staking.address);
     });
 
     it("Should check Revert Validations Set Staking Contract Address", async () => {
-      const { deployer, rewardToken, stakeContract, users } = await loadFixture(
+      const { deployer, rewardToken, staking, users } = await loadFixture(
         basicMethod,
       );
 
       await expect(
-        rewardToken.connect(users[1]).setStakeContract(stakeContract.address),
+        rewardToken.connect(users[1]).setStaking(staking.address),
       ).to.revertedWith("RewardToken: Only Owner can perform this action!");
+
+      await expect(
+        rewardToken.connect(users[1]).mint(staking.address, decimal(1000)),
+      ).to.revertedWith(
+        "RewardToken: Only Staking Contract perform this action!",
+      );
 
       await expect(
         rewardToken
           .connect(deployer)
-          .setStakeContract("0x0000000000000000000000000000000000000000"),
+          .setStaking("0x0000000000000000000000000000000000000000"),
       ).to.revertedWith("RewardToken: Contract Address is Invalid!");
     });
   });

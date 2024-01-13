@@ -18,7 +18,7 @@ interface IRewardToken {
 
     /**
      * @dev Function to set the associated staking contract address.
-     * @param _stakeContract The address of the staking contract.
+     * @param _staking The address of the staking contract.
      */
-    function setStakeContract(address _stakeContract) external;
+    function setStaking(address _staking) external;
 }
