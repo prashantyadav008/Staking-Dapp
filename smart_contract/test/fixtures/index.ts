@@ -7,6 +7,10 @@ let hours = 24;
 
 let day = minutes * seconds * hours;
 
+let currentTime = BigNumber.from(Math.floor(new Date().getTime() / 1000)).add(
+  20,
+);
+
 export async function basicMethod() {
   // random address
   const [deployer, ...users] = await ethers.getSigners();
@@ -25,6 +29,8 @@ export async function basicMethod() {
 
 
   return {
+
+    currentTime,
     day,
     deployer,
     users,

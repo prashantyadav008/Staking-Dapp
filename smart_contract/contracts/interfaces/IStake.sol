@@ -17,10 +17,11 @@ interface IStake {
 
     struct StakeHolder {
         uint stakeAmount;
-        uint inDays;
-        uint percentageInBips;
         uint totalClaimedReward;
+        uint percentageInBips;
+        uint inDays;
         uint createdAt;
+        uint withdrawAt;
         bool claimed;
     }
 }
