@@ -4,10 +4,13 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./interfaces/IRewardToken.sol";
 import "./interfaces/IStake.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 
 import "hardhat/console.sol";
 
 contract Staking is IStake {
+  using Math for uint;
+
   address public owner;
   IERC20 public stakingToken;
   IRewardToken public rewardToken;
@@ -47,12 +50,14 @@ contract Staking is IStake {
     unchecked {
       totalPackages++;
     }
-    require(_percentageInBips > 100 && _inDays > 0, "Stake: Value is Invalid!");
+    require(
+      _percentageInBips >= 100 && _inDays > 0,
+      "Stake: Value is Invalid!"
+    );
 
-    uint dayInSecond = 24 * 60 * 60;
     Package memory p1;
     p1.percentageInBips = _percentageInBips;
-    p1.inDays = _inDays * dayInSecond;
+    p1.inDays = _inDays;
     p1.active = true;
     packages[totalPackages] = p1;
   }
@@ -63,12 +68,14 @@ contract Staking is IStake {
     uint _inDays,
     bool active
   ) external onlyOwner isValidPackage(packageId) {
-    require(_inDays > 0 && _percentageInBips > 100, "Stake: Value is Invalid!");
+    require(
+      _inDays > 0 && _percentageInBips >= 100,
+      "Stake: Value is Invalid!"
+    );
 
-    uint dayInSecond = 24 * 60 * 60;
     Package memory p1 = packages[packageId];
     p1.percentageInBips = _percentageInBips;
-    p1.inDays = _inDays * dayInSecond;
+    p1.inDays = _inDays;
     p1.active = active;
     packages[packageId] = p1;
   }
@@ -103,6 +110,8 @@ contract Staking is IStake {
       _stakers.push(msg.sender);
       isStaked[msg.sender] = true;
     }
+
+    stakingToken.transferFrom(msg.sender, address(this), _stakeAmount);
   }
 
   function viewStakes(
@@ -128,26 +137,33 @@ contract Staking is IStake {
     uint perSecond = (percentage * 10 ** 8) / s1.inDays;
 
     // calculate total per second reward generated more time after staking time completed
+
     uint calculate = (block.timestamp - s1.createdAt) * perSecond;
+    calculate = Math.ceilDiv(calculate, 10 ** 8);
 
     return (perSecond, calculate);
   }
 
-  function withdrawalTokens(uint indexing) external {
+  function claimReward(uint indexing) external {
     StakeHolder memory s1 = _stakes[msg.sender][indexing];
 
-    require(block.timestamp > s1.inDays, "Stake: Staking Time not Completed!");
+    require(
+      block.timestamp >= s1.createdAt + s1.inDays,
+      "Stake: Staking Time not Completed!"
+    );
 
     require(!s1.claimed, "Stake: Reward Token already withdrawal!");
 
     (, uint tokens) = calculateStake(msg.sender, indexing);
 
     s1.withdrawAt = block.timestamp;
-    s1.totalClaimedReward = tokens / 10 ** 8;
+    s1.totalClaimedReward = tokens;
     s1.claimed = true;
 
     _stakes[msg.sender][indexing] = s1;
 
-    rewardToken.mint(msg.sender, 0);
+    rewardToken.mint(msg.sender, tokens);
+
+    stakingToken.transfer(msg.sender, s1.stakeAmount);
   }
 }

@@ -1,12 +1,12 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 
-import { big, decimal, basicMethod } from "./fixtures/index";
+import { basicMethod } from "./fixtures/index";
 
 describe("Reward Token Contract", () => {
   describe("Mint to Address", () => {
     it("Should check Reward Token Basic Detail", async () => {
-      const { deployer, rewardToken } = await loadFixture(basicMethod);
+      const { deployer, rewardToken, big, decimal, } = await loadFixture(basicMethod);
 
       expect(await rewardToken.name()).to.be.equal("Reward Token");
       expect(await rewardToken.symbol()).to.be.equal("REWARD");
@@ -21,7 +21,7 @@ describe("Reward Token Contract", () => {
     });
 
     it("Should check all working transfer amout or not", async () => {
-      const { rewardToken, users, deployer } = await loadFixture(basicMethod);
+      const { rewardToken, users, deployer, big, decimal, } = await loadFixture(basicMethod);
       let amount = decimal(200);
 
       await rewardToken.connect(deployer).setStaking(deployer.address);
@@ -51,7 +51,7 @@ describe("Reward Token Contract", () => {
     });
 
     it("Should check Revert Validations Set Staking Contract Address", async () => {
-      const { deployer, rewardToken, staking, users } = await loadFixture(
+      const { deployer, rewardToken, staking, users, decimal, } = await loadFixture(
         basicMethod,
       );
 
