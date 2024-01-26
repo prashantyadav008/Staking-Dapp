@@ -76,7 +76,7 @@ export async function indexer() {
 
         let s1 = await staking._stakes(users[userIndex].address, indexing);
 
-        await time.increaseTo(currentTime.add(s1.inDays.add(1)));
+        await time.increaseTo(currentTime.add(s1.inDays.add(s1.inDays)));
 
         // after time staking completed calulate percentage of stake
         let percentage = (s1.stakeAmount.mul(s1.percentageInBips)).div(10000);

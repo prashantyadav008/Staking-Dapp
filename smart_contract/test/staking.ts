@@ -3,9 +3,8 @@ import { expect } from "chai";
 
 import { indexer } from "./fixtures/commonMethods";
 import { exit } from "process";
-import { BigNumber } from "ethers";
 
-describe.only("Staking Token Contract", () => {
+describe("Staking Token Contract", () => {
   describe("Basic Public Methods", () => {
     it("Should check Public Method", async () => {
       const { token, rewardToken, staking } = await loadFixture(indexer);
@@ -60,18 +59,18 @@ describe.only("Staking Token Contract", () => {
     describe("Revert Condition for Add Packages Methods", () => {
       it("Should check Only Owner can Add Packages", async () => {
         const { users, staking, dayInSecond } = await loadFixture(indexer);
-        expect(staking.connect(users[1]).addPackages(200, dayInSecond(7))).to.revertedWith(
+        await expect(staking.connect(users[1]).addPackages(200, dayInSecond(7))).to.revertedWith(
           "Stake: Only Owner can perform this action!",
         );
       });
 
       it("Should check Percentage & Days is Greater than 0", async () => {
         const { deployer, staking, dayInSecond } = await loadFixture(indexer);
-        expect(staking.connect(deployer).addPackages(200, dayInSecond(0))).to.revertedWith(
+        await expect(staking.connect(deployer).addPackages(200, dayInSecond(0))).to.revertedWith(
           "Stake: Value is Invalid!",
         );
 
-        expect(staking.connect(deployer).addPackages(20, dayInSecond(7))).to.revertedWith(
+        await expect(staking.connect(deployer).addPackages(20, dayInSecond(7))).to.revertedWith(
           "Stake: Value is Invalid!",
         );
       });
@@ -108,31 +107,35 @@ describe.only("Staking Token Contract", () => {
     describe("Revert Condition for Update Packages Methods", () => {
       it("Should check Only Owner can Update Packages", async () => {
         const { users, staking } = await loadFixture(indexer);
-        expect(staking.connect(users[1]).updatePackages(1, 1000, 20, false)).to.revertedWith(
+        await expect(staking.connect(users[1]).updatePackages(1, 1000, 20, false)).to.revertedWith(
           "Stake: Only Owner can perform this action!",
         );
       });
 
       it("Should check Invalid Package Id", async () => {
         const { deployer, staking } = await loadFixture(indexer);
-        expect(staking.connect(deployer).updatePackages(0, 1000, 10, false)).to.revertedWith(
+        await expect(staking.connect(deployer).updatePackages(0, 1000, 10, false)).to.revertedWith(
           "Stake: Invalid Package Id!",
         );
 
-        expect(staking.connect(deployer).updatePackages(10, 1000, 10, false)).to.revertedWith(
+        await expect(staking.connect(deployer).updatePackages(10, 1000, 10, false)).to.revertedWith(
           "Stake: Invalid Package Id!",
         );
+
       });
 
       it("Should check Percentage & Days is Greater than 0", async () => {
-        const { deployer, staking } = await loadFixture(indexer);
-        expect(staking.connect(deployer).updatePackages(1, 1000, 0, true)).to.revertedWith(
+        const { addPackages, deployer, staking, dayInSecond } = await loadFixture(indexer);
+
+        await addPackages();
+        await expect(staking.connect(deployer).updatePackages(1, 1000, dayInSecond(0), true)).to.revertedWith(
           "Stake: Value is Invalid!",
         );
 
-        expect(staking.connect(deployer).updatePackages(1, 0, 10, true)).to.revertedWith(
+        await expect(staking.connect(deployer).updatePackages(1, 0, dayInSecond(7), true)).to.revertedWith(
           "Stake: Value is Invalid!",
         );
+
       });
     });
   });
@@ -318,16 +321,14 @@ describe.only("Staking Token Contract", () => {
       expect(await staking.calculateStake(users[3].address, 1)).to.have.deep.members([p3_1, c3_1]);
     });
 
-    it.only("Should check Calculate Reward After Exceed 5 days", async () => {
-      const { calculateRewardExtra, withdrawalToken, staking, users, big, dayInSecond, rewardToken, stake, } = await loadFixture(indexer);
+    it("Should check Calculate Reward After Exceed Double days", async () => {
+      const { calculateRewardExtra, withdrawalToken, staking, users, stake, } = await loadFixture(indexer);
 
       await stake();
       let { perSecond: p, calculate: c } = await calculateRewardExtra(1, 0);
-      await withdrawalToken(1, 0);
+      let calculateStake = await staking.calculateStake(users[1].address, 0);
 
-      let stakes1 = await staking._stakes(users[1].address, 0);
-
-      console.log(p, c, stakes1);
+      expect(calculateStake).to.have.deep.members([p, c]);;
 
     });
 
