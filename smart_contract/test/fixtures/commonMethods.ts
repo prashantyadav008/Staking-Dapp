@@ -1,5 +1,6 @@
 import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { basicMethod, big, days, decimal } from "./index";
+import { basicMethod } from "./index";
+import { BigNumber } from "ethers";
 
 // indexer is use for managing all contract dependency methods like methods.
 // So creating mapping between all the contract thats easily to call all dependency contract method one-by-one in a single method so it take less time to run testcase.
@@ -14,6 +15,8 @@ export async function indexer() {
         token,
         rewardToken,
         staking,
+
+        big, dayInSecond, epochDay, decimal
     } = await loadFixture(basicMethod);
 
     await runtime();
@@ -31,10 +34,10 @@ export async function indexer() {
     }
 
     async function addPackages() {
-        await staking.connect(deployer).addPackages(200, 7);
-        await staking.connect(deployer).addPackages(350, 14);
-        await staking.connect(deployer).addPackages(500, 30);
-        await staking.connect(deployer).addPackages(1000, 60);
+        await staking.connect(deployer).addPackages(200, dayInSecond(7));
+        await staking.connect(deployer).addPackages(350, dayInSecond(14));
+        await staking.connect(deployer).addPackages(500, dayInSecond(30));
+        await staking.connect(deployer).addPackages(1000, dayInSecond(60));
     }
 
     async function stake() {
@@ -47,27 +50,70 @@ export async function indexer() {
         await staking.connect(users[3]).stakeToken(4, 50000);
     }
 
-    async function calculateRewardUser1() {
+    async function calculateReward(userIndex: any, indexing: any) {
 
-        await stake();
-        await time.increaseTo(currentTime.add(days(7)));
+        let s1 = await staking._stakes(users[userIndex].address, indexing);
 
-        return 0;
+        await time.increaseTo(currentTime.add(s1.inDays));
+
+        // after time staking completed calulate percentage of stake
+        let percentage = (s1.stakeAmount.mul(s1.percentageInBips)).div(10000);
+
+        // calculate per second reward generated
+        let perSecond = (percentage.mul(10 ** 8)).div(s1.inDays);
+
+        // calculate total per second reward generated more time after staking time completed 
+        let latestTime = big(await time.latest());
+        let calculate = ((latestTime).sub(s1.createdAt)).mul(perSecond);
+        calculate = big(Math.ceil(Number(calculate) / (10 ** 8)));
+
+        // console.log("latestTime-....", latestTime, latestTime.sub(s1.createdAt));
+
+        return { perSecond: big(perSecond), calculate: big(calculate) };
     }
 
+    async function calculateRewardExtra(userIndex: any, indexing: any) {
 
+        let s1 = await staking._stakes(users[userIndex].address, indexing);
+
+        await time.increaseTo(currentTime.add(s1.inDays.add(1)));
+
+        // after time staking completed calulate percentage of stake
+        let percentage = (s1.stakeAmount.mul(s1.percentageInBips)).div(10000);
+
+        // calculate per second reward generated
+        let perSecond = (percentage.mul(10 ** 8)).div(s1.inDays);
+
+        // calculate total per second reward generated more time after staking time completed 
+        let latestTime = big(await time.latest());
+        let calculate = ((latestTime).sub(s1.createdAt)).mul(perSecond);
+        calculate = big(Math.ceil(Number(calculate) / (10 ** 8)));
+
+        // console.log("latestTime-....", latestTime, latestTime.sub(s1.createdAt));
+
+        return { perSecond: big(perSecond), calculate: big(calculate) };
+    }
+    async function withdrawalToken(userIndex: any, indexing: any) {
+        await staking.connect(users[userIndex]).claimReward(indexing)
+    }
 
     return {
-        day, big, days, decimal, currentTime,
+        day, currentTime,
 
-        deployer, users,
+        deployer,
+        users,
 
         token,
         rewardToken,
         staking,
 
+        big, dayInSecond, epochDay, decimal,
+
         mintToken,
         addPackages,
         stake,
+        calculateReward,
+        calculateRewardExtra,
+        withdrawalToken
     };
 }
