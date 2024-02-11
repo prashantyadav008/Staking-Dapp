@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import "../../assets/css/pages.css";
 
 import { NavBar } from "../pages/NavBar/index";
-import "../assets/css/pages.css";
+
+import { WalletConnection } from "../smartContract/Web3Modal/Web3Modal";
 
 export const Home = () => {
   return (

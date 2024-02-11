@@ -1,3 +1,5 @@
+import React from "react";
+
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -12,9 +14,18 @@ function App() {
   const router = createBrowserRouter([
     { path: "*", element: <PageNotFound /> },
     { path: "/", element: <Home /> },
-    { path: "/stakeToken", element: <StakeToken /> },
-    { path: "/calculateToken", element: <CalculateToken /> },
-    { path: "/claimToken", element: <ClaimToken /> },
+    {
+      path: "/stakeToken",
+      element: <StakeToken />,
+    },
+    {
+      path: "/calculateToken",
+      element: <CalculateToken />,
+    },
+    {
+      path: "/claimToken",
+      element: <ClaimToken />,
+    },
   ]);
 
   return (

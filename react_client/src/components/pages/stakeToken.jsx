@@ -2,83 +2,74 @@ import React from "react";
 
 import { Home } from "./Home";
 
-export const StakeToken = () => {
+export const StakeToken = (props) => {
   return (
     <>
       <Home />
 
-      <div id="main-wrapper" class="container">
-        <div class="row justify-content-center">
-          <div class="col-xl-10">
-            <div class="card border-0">
-              <div class="card-body p-0">
-                <div class="row no-gutters">
-                  <div class="col-lg-6">
-                    <div class="p-5">
-                      <div class="mb-5">
-                        <h3 class="h4 font-weight-bold text-theme">Login</h3>
+      <div id="main-wrapper" className="container">
+        <div className="row justify-content-center">
+          <div className="col-xl-8">
+            <div className="card border-0">
+              <div className="card-body p-0">
+                <div className="row no-gutters">
+                  <div className="col-lg-6">
+                    <div className="p-5">
+                      <div className="mb-5">
+                        <h3 className="h4 font-weight-bold text-theme">
+                          Stake Token
+                        </h3>
                       </div>
 
-                      <h6 class="h5 mb-0">Welcome back!</h6>
-                      <p class="text-muted mt-2 mb-5">
-                        Enter your email address and password to access admin
-                        panel.
-                      </p>
-
                       <form>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Email address</label>
+                        <div className="form-group mb-5">
+                          <label for="package">Select Package</label>
+                          <select className="btn dropdown-toggle">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                          </select>
+                        </div>
+
+                        <div className="form-group mb-5">
+                          <label for="TokenAddress">Stake Token Address</label>
                           <input
-                            type="email"
-                            class="form-control"
-                            id="exampleInputEmail1"
+                            type="text"
+                            className="form-control"
+                            id="TokenAddress"
                           />
                         </div>
-                        <div class="form-group mb-5">
-                          <label for="exampleInputPassword1">Password</label>
+
+                        <div className="form-group mb-5">
+                          <label for="StakeAmount">Stake Amount</label>
                           <input
-                            type="password"
-                            class="form-control"
-                            id="exampleInputPassword1"
+                            type="tel"
+                            className="form-control"
+                            id="StakeAmount"
                           />
                         </div>
-                        <button type="submit" class="btn btn-theme">
+                        <button type="submit" className="btn btn-theme">
                           Login
                         </button>
-                        <a
-                          href="#l"
-                          class="forgot-link float-right text-primary">
-                          Forgot password?
-                        </a>
                       </form>
                     </div>
                   </div>
 
-                  <div class="col-lg-6 d-none d-lg-inline-block">
-                    <div class="account-block rounded-right">
-                      <div class="overlay rounded-right"></div>
-                      <div class="account-testimonial">
-                        <h4 class="text-white mb-4">
-                          This beautiful theme yours!
+                  <div className="col-lg-6 d-none d-lg-inline-block">
+                    <div className="account-block rounded-right">
+                      <div className="overlay rounded-right"></div>
+                      <div className="account-testimonial">
+                        <h4 className="text-white mb-4">
+                          Selected Package Token Rewards!
                         </h4>
-                        <p class="lead text-white">
-                          "Best investment i made for a long time. Can only
-                          recommend it for other users."
-                        </p>
-                        <p>- Admin User</p>
+                        <p className="lead text-white">0</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <p class="text-muted text-center mt-3 mb-0">
-              Don't have an account?{" "}
-              <a href="" class="text-primary ml-1">
-                register
-              </a>
-            </p>
           </div>
         </div>
       </div>
