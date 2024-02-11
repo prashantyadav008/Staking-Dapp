@@ -63,7 +63,7 @@ ul {
   display: block;
   padding: 0 10px;
   text-decoration: none;
-  color: #000000;
+  color: #3e13ec;
 }
 
 #full-embed #actions .hl {
@@ -162,4 +162,9 @@ header {
 heading {
   font-size: 2rem;
   color: rgb(69, 7, 7);
+}
+
+#full-embed header .connectWallet .buttonDropdown {
+  background-color: ghostwhite;
+  color: #ef0cb7;
 }

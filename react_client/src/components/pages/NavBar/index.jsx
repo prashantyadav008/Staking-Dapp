@@ -7,7 +7,6 @@ import { WalletConnection } from "../../smartContract/Web3Modal/Web3Modal";
 
 export const NavBar = () => {
   const connection = WalletConnection();
-  const navigateTo = useNavigate();
 
   const [walletAddress, setWalletAddress] = useState(null);
 
@@ -78,7 +77,7 @@ export const NavBar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/claimToken">
                   Claim Token
                 </Link>
               </li>
@@ -86,10 +85,10 @@ export const NavBar = () => {
               <div className="connectWallet">
                 {walletAddress ? (
                   <select
-                    className="btn btn-success text-white dropdown-toggle"
+                    className="btn buttonDropdown dropdown-toggle"
                     onChange={disconnectWallet}
                     title={walletAddress}>
-                    <option>
+                    <option className="btn btn-light">
                       {walletAddress.substring(0, 7)}......
                       {walletAddress.substring(36)}
                     </option>

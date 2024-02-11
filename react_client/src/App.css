@@ -1,5 +1,7 @@
 #root {
-  max-width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
   text-align: center;
 }
 
@@ -146,10 +148,6 @@
   color: var(--bs-link-hover-color);
 }
 
-.page-not-found {
-  position: absolute;
-  width: 100%;
-}
 .page-not-found p.error {
   text-align: center;
   font-weight: bold;
