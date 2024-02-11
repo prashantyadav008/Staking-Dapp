@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Web3 } from "web3";
 import swal from "sweetalert";
 
@@ -32,9 +32,13 @@ export const ContractInstance = async () => {
 };
 
 export const WalletConnection = () => {
+  const [walletAddress, setWalletAddress] = useState(
+    localStorage.getItem("connectedAddress") || ""
+  );
+
   useEffect(() => {
     Web3Index();
-  }, []);
+  }, [walletAddress]);
 
   window.addEventListener("load", async () => {
     if (window.ethereum) {
@@ -46,12 +50,12 @@ export const WalletConnection = () => {
         if (accounts.length > 0) {
           swal("Success!", "Wallet Connected Successfully!", "success");
           localStorage.setItem("connectedAddress", accounts[0]);
+          setWalletAddress(accounts[0]); // Update walletAddress state
         } else {
           await disconnectWallet();
         }
       });
     } else {
-      /* MetaMask is not installed */
       localStorage.removeItem("connectedAddress");
       swal("Alert!", "Please install MetaMask!", "warning");
     }
@@ -64,7 +68,30 @@ export const WalletConnection = () => {
 
   const disconnectWallet = async () => {
     localStorage.removeItem("connectedAddress");
+    setWalletAddress(""); // Update walletAddress state
     swal("Success!", "Wallet Disconnected Sucessfully!", "success");
+  };
+
+  async function setLocalStorage() {
+    let address = localStorage.getItem("connectedAddress");
+    if (!address) {
+      let refreshAddress = await getWalletAddress();
+      if (refreshAddress) {
+        address = localStorage.getItem("connectedAddress");
+        setWalletAddress(address); // Update walletAddress state
+      }
+    }
+  }
+
+  const getWalletAddress = async () => {
+    const web3 = new Web3(window.ethereum);
+    let walletAddress = await web3.eth.requestAccounts();
+    if (walletAddress) {
+      localStorage.setItem("connectedAddress", walletAddress[0]);
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const switchNetwork = async () => {
@@ -111,30 +138,6 @@ export const WalletConnection = () => {
       console.error(error);
     }
   };
-
-  const getWalletAddress = async () => {
-    const web3 = new Web3(window.ethereum);
-    let walletAddress = await web3.eth.requestAccounts();
-    if (walletAddress) {
-      localStorage.setItem("connectedAddress", walletAddress[0]);
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  async function setLocalStorage() {
-    /* 
-        get connected wallet address
-      */
-    let address = localStorage.getItem("connectedAddress");
-    if (!address) {
-      let refreshAddress = await getWalletAddress();
-      if (refreshAddress) {
-        address = localStorage.getItem("connectedAddress");
-      }
-    }
-  }
 
   return {
     switchNetwork: switchNetwork,
