@@ -1,0 +1,170 @@
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+ol,
+ul {
+  list-style: none;
+}
+
+#full-embed {
+  position: relative;
+  margin-top: 100px;
+}
+
+#full-embed header {
+  height: 55px;
+  box-shadow: 0 0 5px rgba(57, 70, 78, 0.2);
+  position: relative;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffa6e9;
+}
+
+#full-embed header .connectWallet {
+  position: relative;
+  float: right;
+  height: 50px;
+  bottom: 5px;
+  right: 40px;
+}
+
+#full-embed header .connectWallet a {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+#full-embed header .connectWallet a:hover {
+  text-decoration: underline;
+}
+
+#full-embed header .connectWallet a svg {
+  stroke: #2e71ff;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+#full-embed #actions li {
+  float: left;
+}
+
+#full-embed #actions li a {
+  display: block;
+  padding: 0 10px;
+  text-decoration: none;
+  color: #3e13ec;
+}
+
+#full-embed #actions .hl {
+  height: 3px;
+  width: 0;
+  background: #2e71ff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#full-embed #actions .hl.animated {
+  -webkit-transition: all 0.15s;
+  transition: all 0.15s;
+}
+
+#full-embed #tabs {
+  margin-top: 50px;
+  overflow: auto;
+  height: calc(100vh - 50px);
+}
+
+#full-embed #tabs .tCont {
+  padding: 10px;
+  display: none;
+}
+
+#full-embed #tabs .tCont.active {
+  display: block;
+}
+
+#full-embed #tabs pre {
+  background: 0 0;
+  font-family:
+    sf mono,
+    monaco,
+    andale mono,
+    lucida console,
+    bitstream vera sans mono,
+    courier new,
+    Courier,
+    monospace;
+  line-height: 1.55em;
+  font-size: 12px;
+}
+
+#full-embed #tabs #result {
+  padding: 0;
+  height: calc(100vh - 50px);
+}
+
+#full-embed #tabs #result iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  margin: 0;
+}
+
+#full-embed #tabs.noHeader {
+  margin-top: 0;
+  overflow: auto;
+  height: 100vh;
+}
+
+#full-embed #tabs.noHeader #result {
+  padding: 0;
+  height: 100vh;
+}
+
+#full-embed #resources h3 {
+  font-size: 11px;
+  color: #616b71;
+  line-height: 23px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#full-embed #resources ul {
+  border-top: solid 1px #2c2f34;
+}
+
+#full-embed #resources ul li {
+  border-bottom: solid 1px #2c2f34;
+  padding: 7px 0;
+}
+
+#full-embed #resources ul a {
+  color: #2e71ff;
+}
+
+header {
+  background-color: #fff;
+}
+
+heading {
+  font-size: 2rem;
+  color: rgb(69, 7, 7);
+}
+
+#full-embed header .connectWallet .buttonDropdown {
+  background-color: ghostwhite;
+  color: #ef0cb7;
+}
