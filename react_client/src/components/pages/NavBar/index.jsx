@@ -81,6 +81,16 @@ export const NavBar = () => {
                   Claim Token
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/addPackage">
+                  Add Package
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/updatePackage">
+                  Update Package
+                </Link>
+              </li>
 
               <div className="connectWallet">
                 {walletAddress ? (

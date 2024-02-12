@@ -2,7 +2,7 @@ import React from "react";
 
 import { Home } from "./Home";
 
-export const CalculateToken = () => {
+export const AddPackage = (props) => {
   return (
     <>
       <Home />
@@ -17,36 +17,35 @@ export const CalculateToken = () => {
                     <div className="p-3">
                       <div className="mb-3">
                         <h3 className="h4 font-weight-bold text-theme">
-                          Calculate Reward Token
+                          Add Packages
                         </h3>
                       </div>
 
                       <form>
                         <div className="form-group mb-4">
-                          <label className="fw-medium" htmlFor="WalletAddress">
-                            Wallet Address:
+                          <label className="fw-medium" htmlFor="Percentage">
+                            Percentage (Percentage in Bips):
                           </label>
                           <input
-                            type="text"
+                            type="tel"
                             className="form-control"
-                            id="WalletAddress"
+                            id="Percentage"
                           />
                         </div>
 
                         <div className="form-group mb-4">
-                          <label className="fw-medium" htmlFor="SelectPackage">
-                            Select Stake Id:
+                          <label className="fw-medium" htmlFor="Days">
+                            Days (Days in Seconds):
                           </label>
-                          <select className="form-control custom-select">
-                            <option defaultValue="0">Choose...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                          </select>
+                          <input
+                            type="tel"
+                            className="form-control"
+                            id="Days"
+                          />
                         </div>
 
                         <button type="submit" className="btn btn-theme">
-                          Calculate Token
+                          Add Package
                         </button>
                       </form>
                     </div>
