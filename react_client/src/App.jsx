@@ -9,6 +9,8 @@ import { Home } from "./components/pages/Home";
 import { StakeToken } from "./components/pages/stakeToken";
 import { CalculateToken } from "./components/pages/calculateToken";
 import { ClaimToken } from "./components/pages/claimToken";
+import { AddPackage } from "./components/pages/addPackage";
+import { UpdatePackage } from "./components/pages/updatePackage";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,6 +27,14 @@ function App() {
     {
       path: "/claimToken",
       element: <ClaimToken />,
+    },
+    {
+      path: "/AddPackage",
+      element: <AddPackage />,
+    },
+    {
+      path: "/UpdatePackage",
+      element: <UpdatePackage />,
     },
   ]);
 
