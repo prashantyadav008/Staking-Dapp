@@ -1,11 +1,11 @@
 import React from "react";
 
-import { Home } from "./Home";
+import { NavBar } from "../pages/NavBar/index";
 
 export const AddPackage = (props) => {
   return (
     <>
-      <Home />
+      <NavBar />
 
       <div id="main-wrapper" className="container">
         <div className="row justify-content-center">
