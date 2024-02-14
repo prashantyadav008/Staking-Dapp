@@ -60,17 +60,66 @@
   margin-top: 5rem;
   border-radius: 15px;
   box-shadow: 0 0 10px rgb(255 255 255);
+  background-color: #000000a8;
+}
+
+.homeSection .staking {
+  position: relative;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 5rem;
+  border-radius: 15px;
+  box-shadow: 0 0 7px rgb(0 89 136);
+  margin-bottom: 5rem;
 }
 
 .homeSection .staking p {
+  font-weight: 500;
+  font-size: 2rem;
+  color: #005988;
 }
 
 .homeSection .staking table {
   --bs-table-bg: #005988;
   --bs-table-color: #ffffff;
+  table-layout: fixed;
 }
 
 .homeSection .staking table tbody:hover {
   --bs-table-bg: #005988;
   --bs-table-color: #ffffff;
+}
+
+.homeSection .calculateToken p {
+  font-weight: 500;
+  font-size: 2rem;
+  color: #005988;
+  margin: 0 auto;
+}
+
+.homeSection .calculateToken .formDetail {
+  position: relative;
+  width: 55%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  border-radius: 15px;
+  background-color: #005988;
+  color: #ffffff;
+  box-shadow: 0 0 7px rgb(0 89 136);
+}
+
+.homeSection .calculateToken .formDetail #amount {
+  width: 60%;
+}
+
+.homeSection .calculateToken .formDetail #package {
+  width: 40%;
+}
+
+.homeSection .calculateToken .formDetail .form-control {
+  margin: 0 auto;
 }
