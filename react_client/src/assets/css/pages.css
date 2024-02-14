@@ -37,3 +37,40 @@
   border-color: #5369f8;
   color: #fff;
 }
+
+.homeSection .banner {
+  height: 30rem;
+  width: 76rem;
+  background-image: url(../images/stakingBanner.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  margin-bottom: 7rem;
+}
+
+.homeSection .banner .bannerText {
+  position: relative;
+  top: 45%;
+  width: 75%;
+  height: 20%;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+  font-size: 2rem;
+  margin-top: 5rem;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgb(255 255 255);
+}
+
+.homeSection .staking p {
+}
+
+.homeSection .staking table {
+  --bs-table-bg: #005988;
+  --bs-table-color: #ffffff;
+}
+
+.homeSection .staking table tbody:hover {
+  --bs-table-bg: #005988;
+  --bs-table-color: #ffffff;
+}
