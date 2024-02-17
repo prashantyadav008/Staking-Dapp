@@ -2,10 +2,12 @@ import { ContractInstance } from "./Web3Modal";
 
 export const ContractMethods = async () => {
   const walletAddress = localStorage.getItem("connectedAddress");
-  const contractInstance = await ContractInstance();
+  const { token, reward, staking } = await ContractInstance();
 
   const getOwner = async () => {
-    const owner = await contractInstance.methods
+    console.log("staking--->> ", staking);
+
+    const owner = await staking.methods
       .owner()
       .call()
       .then((result) => {
@@ -20,7 +22,7 @@ export const ContractMethods = async () => {
   };
 
   const totalPackages = async () => {
-    const totalPackage = await contractInstance.methods
+    const totalPackage = await staking.methods
       .totalPackages()
       .call()
       .then((result) => {
@@ -35,7 +37,7 @@ export const ContractMethods = async () => {
   };
 
   const getPackages = async (id) => {
-    const packages = await contractInstance.methods
+    const packages = await staking.methods
       .packages(id)
       .call()
       .then((result) => {
@@ -63,9 +65,39 @@ export const ContractMethods = async () => {
     return viewAllPAckages;
   };
 
-  const viewStakes = async (userAddress) => {
-    const packages = await contractInstance.methods
-      .viewStakes(userAddress)
+  const getStakeDetail = async (account, id) => {
+    const packages = await staking.methods
+      ._stakes(account, id)
+      .call()
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        console.log("getPackages error--->> ", error);
+        return false;
+      });
+
+    return packages;
+  };
+
+  const viewStakes = async () => {
+    const packages = await staking.methods
+      .viewStakes(walletAddress)
+      .call()
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        console.log("getPackages error--->> ", error);
+        return false;
+      });
+
+    return packages;
+  };
+
+  const stakeList = async () => {
+    const packages = await staking.methods
+      .stakeList()
       .call()
       .then((result) => {
         return result;
@@ -79,7 +111,7 @@ export const ContractMethods = async () => {
   };
 
   const addPackages = async (percentage, days) => {
-    const packages = await contractInstance.methods
+    const packages = await staking.methods
       .addPackages(percentage, days)
       .send({ from: walletAddress })
       .then(() => {
@@ -94,7 +126,7 @@ export const ContractMethods = async () => {
   };
 
   const updatePackages = async (id, percentage, days, status) => {
-    const packages = await contractInstance.methods
+    const packages = await staking.methods
       .updatePackages(id, percentage, days, status)
       .send({ from: walletAddress })
       .then(() => {
@@ -109,7 +141,7 @@ export const ContractMethods = async () => {
   };
 
   const stakeToken = async (packageId, stakeAmount) => {
-    const packages = await contractInstance.methods
+    const packages = await staking.methods
       .stakeToken(packageId, stakeAmount)
       .call()
       .then(() => {
@@ -124,7 +156,7 @@ export const ContractMethods = async () => {
   };
 
   const claimedReward = async (index) => {
-    const packages = await contractInstance.methods
+    const packages = await staking.methods
       .updatePackages(index)
       .send({ from: walletAddress })
       .then(() => {
@@ -143,7 +175,9 @@ export const ContractMethods = async () => {
     totalPackages: totalPackages,
     getPackages: getPackages,
     getAllPackages: getAllPackages,
+    getStakeDetail: getStakeDetail,
     viewStakes: viewStakes,
+    stakeList: stakeList,
 
     addPackages: addPackages,
     updatePackages: updatePackages,

@@ -1,0 +1,216 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "_stakingToken",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IRewardToken",
+        "name": "_rewardToken",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "_stakers",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "_stakes",
+    "outputs": [
+      { "internalType": "uint256", "name": "stakeAmount", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "totalClaimedReward",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "percentageInBips",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "inDays", "type": "uint256" },
+      { "internalType": "uint256", "name": "createdAt", "type": "uint256" },
+      { "internalType": "uint256", "name": "withdrawAt", "type": "uint256" },
+      { "internalType": "bool", "name": "claimed", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_percentageInBips",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_inDays", "type": "uint256" }
+    ],
+    "name": "addPackages",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "userAddress", "type": "address" },
+      { "internalType": "uint256", "name": "indexing", "type": "uint256" }
+    ],
+    "name": "calculateStake",
+    "outputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "indexing", "type": "uint256" }
+    ],
+    "name": "claimReward",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "isStaked",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "packages",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "percentageInBips",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "inDays", "type": "uint256" },
+      { "internalType": "bool", "name": "active", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardToken",
+    "outputs": [
+      { "internalType": "contract IRewardToken", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "packageId", "type": "uint256" },
+      { "internalType": "uint256", "name": "_stakeAmount", "type": "uint256" }
+    ],
+    "name": "stakeToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stakerList",
+    "outputs": [
+      { "internalType": "address[]", "name": "", "type": "address[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stakingToken",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalPackages",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "packageId", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_percentageInBips",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "_inDays", "type": "uint256" },
+      { "internalType": "bool", "name": "active", "type": "bool" }
+    ],
+    "name": "updatePackages",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "userAddress", "type": "address" }
+    ],
+    "name": "viewStakes",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "stakeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalClaimedReward",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "percentageInBips",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "inDays", "type": "uint256" },
+          { "internalType": "uint256", "name": "createdAt", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "withdrawAt",
+            "type": "uint256"
+          },
+          { "internalType": "bool", "name": "claimed", "type": "bool" }
+        ],
+        "internalType": "struct IStake.StakeHolder[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

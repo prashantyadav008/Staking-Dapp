@@ -4,11 +4,20 @@ import "../../assets/css/pages.css";
 
 import { NavBar } from "../pages/NavBar/index";
 
-import stakingBanner from "../../assets/images/stakingBanner.jpg";
-
-import { WalletConnection } from "../smartContract/Web3Modal/Web3Modal";
+import { ContractMethods } from "../smartContract/Web3Modal/ContractMethods";
 
 export const Home = () => {
+  useEffect(() => {
+    contractMethods();
+  }, []);
+
+  const contractMethods = async () => {
+    const contract = await ContractMethods();
+
+    let owner = await contract.getOwner();
+    console.log("owner--> ", owner);
+  };
+
   return (
     <>
       <NavBar />
