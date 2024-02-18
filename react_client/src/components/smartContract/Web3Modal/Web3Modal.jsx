@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { Web3 } from "web3";
 import swal from "sweetalert";
 
+import ERC20Token_ABI from "../ABI/ERC20Token_ABI.json";
+import RewardToken_ABI from "../ABI/RewardToken_ABI.json";
+import Staking_ABI from "../ABI/Staking_ABI.json";
+
 export const Web3Index = async () => {
   return new Promise(async (resolve, reject) => {
     const web3 = new Web3(window.ethereum);
@@ -22,13 +26,26 @@ export const Web3Index = async () => {
 };
 
 export const ContractInstance = async () => {
-  let contractAddress = process.env.Contract_Address;
-  let contractAbi = Abi;
+  let ercContract = process.env.Contract_Address;
+  let ercAbi = ERC20Token_ABI;
+
+  let rewardContract = process.env.Contract_Address;
+  let rewardAbi = RewardToken_ABI;
+
+  let stakingContract = process.env.Contract_Address;
+  let stakingAbi = Staking_ABI;
 
   const web3 = await Web3Index();
 
-  let instance = new web3.eth.Contract(contractAbi, contractAddress);
-  return instance;
+  let token = new web3.eth.Contract(ercAbi, ercContract);
+  let reward = new web3.eth.Contract(rewardAbi, rewardContract);
+  let staking = new web3.eth.Contract(stakingAbi, stakingContract);
+
+  return {
+    token: token,
+    reward: reward,
+    staking: staking,
+  };
 };
 
 export const WalletConnection = () => {
