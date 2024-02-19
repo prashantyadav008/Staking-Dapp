@@ -7,6 +7,8 @@ import { NavBar } from "../pages/NavBar/index";
 import { ContractMethods } from "../smartContract/Web3Modal/ContractMethods";
 
 export const Home = () => {
+  const [walletAddress, setWalletAddress] = useState();
+
   useEffect(() => {
     contractMethods();
   }, []);
@@ -15,7 +17,9 @@ export const Home = () => {
     const contract = await ContractMethods();
 
     let owner = await contract.getOwner();
-    console.log("owner--> ", owner);
+    if (owner != false) {
+      setWalletAddress(owner);
+    }
   };
 
   return (
