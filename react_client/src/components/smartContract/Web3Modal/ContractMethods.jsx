@@ -5,16 +5,14 @@ export const ContractMethods = async () => {
   const { token, reward, staking } = await ContractInstance();
 
   const getOwner = async () => {
-    console.log("staking--->> ", staking);
-
-    const owner = await staking.methods
+    let owner = await staking.methods
       .owner()
       .call()
       .then((result) => {
         return result;
       })
-      .catch((error) => {
-        console.log("getOwner error--->> ", error);
+      .catch((err) => {
+        console.log("get owner->>>>>>>>>>>", err);
         return false;
       });
 
@@ -53,8 +51,7 @@ export const ContractMethods = async () => {
     return packages;
   };
 
-  const getAllPackages = async () => {
-    const totalPackages = await totalPackages();
+  const getAllPackages = async (totalPackages) => {
     let viewAllPAckages = [];
 
     for (let i = 1; i <= totalPackages; i++) {

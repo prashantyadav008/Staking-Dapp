@@ -26,13 +26,13 @@ export const Web3Index = async () => {
 };
 
 export const ContractInstance = async () => {
-  let ercContract = process.env.Contract_Address;
+  let ercContract = process.env.ERC20_Address;
   let ercAbi = ERC20Token_ABI;
 
-  let rewardContract = process.env.Contract_Address;
+  let rewardContract = process.env.Reward_Address;
   let rewardAbi = RewardToken_ABI;
 
-  let stakingContract = process.env.Contract_Address;
+  let stakingContract = process.env.Staking_Address;
   let stakingAbi = Staking_ABI;
 
   const web3 = await Web3Index();
