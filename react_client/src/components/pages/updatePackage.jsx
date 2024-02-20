@@ -232,7 +232,7 @@ export const UpdatePackage = () => {
                           <label
                             className="fw-medium"
                             htmlFor="percentageStatus">
-                            Package Status: {"yeah-->> " + packageStatus}
+                            Package Status:
                           </label>
                           <select
                             className="form-control custom-select"
