@@ -9,14 +9,20 @@ export const UpdatePackage = () => {
   const [owner, setOwner] = useState();
   const [walletAddress, setWalletAddress] = useState();
 
-  const [packagePercentage, setPackagePercentage] = useState("");
-  const [packageDays, setPackageDays] = useState("");
+  const [packagePercentage, setPackagePercentage] = useState(0);
+  const [packageDays, setPackageDays] = useState(0);
+  const [packageId, setPackageId] = useState(0);
+  const [packageStatus, setPackageStatus] = useState();
+
+  const [allPackages, setAllPackage] = useState([]);
 
   useEffect(() => {
     contractMethods();
   }, []);
 
   const contractMethods = async () => {
+    document.getElementById("form_section").classList.add("d-none");
+
     let address = localStorage.getItem("connectedAddress");
     if (address) {
       setWalletAddress(address);
@@ -32,10 +38,22 @@ export const UpdatePackage = () => {
     }
 
     let totalPackages = await contract.totalPackages();
-    console.log("totalPackages-->>  ", totalPackages);
 
     let allPackages = await contract.getAllPackages(totalPackages);
-    console.log("allPackages-->>  ", allPackages);
+    setAllPackage(allPackages);
+  };
+
+  const getPackages = async (id) => {
+    const contract = await ContractMethods();
+    let result = await contract.getPackages(id);
+
+    if (result != false) {
+      setPackageId(id);
+      setPackagePercentage(result.percentageInBips);
+      setPackageDays(result.inDays);
+      setPackageStatus(result.active);
+      document.getElementById("form_section").classList.remove("d-none");
+    }
   };
 
   const percentageHandleChange = (e) => {
@@ -43,7 +61,7 @@ export const UpdatePackage = () => {
 
     if (
       (e.target.value !== "" && regex.test(e.target.value)) ||
-      (e.target.value >= 0 && e.target.value <= 100)
+      (e.target.value >= 1 && e.target.value <= 100)
     ) {
       setPackagePercentage(e.target.value);
     } else if (e.target.value === "") {
@@ -64,7 +82,7 @@ export const UpdatePackage = () => {
     }
   };
 
-  const addPackages = async (event) => {
+  const updatePackages = async (event) => {
     event.preventDefault();
     let walletAddress1 = walletAddress ? walletAddress.toLowerCase() : null;
     let owner1 = owner ? owner.toLowerCase() : null;
@@ -72,17 +90,23 @@ export const UpdatePackage = () => {
     if (walletAddress1 == owner1 && walletAddress1 != null) {
       document.getElementById("loaderVisibility").classList.add("is-active");
 
+      let id = document.querySelector("#packageId").value;
       let percentage = document.querySelector("#percentage").value;
       let days = document.querySelector("#days").value;
+      let status = document.querySelector("#percentageStatus").value === "true";
 
       if (percentage > 0 && days > 0) {
         const contract = await ContractMethods();
 
         percentage = percentage * 100;
         days = days * 24 * 60 * 60;
-        console.log(percentage, days);
 
-        let result = await contract.addPackages(percentage, days);
+        let result = await contract.updatePackages(
+          id,
+          percentage,
+          days,
+          status
+        );
         if (result) {
           swal("Success!", "Add Packages Successfully!", "success");
         } else {
@@ -91,7 +115,9 @@ export const UpdatePackage = () => {
       } else {
         swal("Error!", "Invalid Values!", "error");
       }
+
       document.getElementById("loaderVisibility").classList.remove("is-active");
+      await contractMethods();
     } else {
       swal("Error!", "Only Contract Owner can perform this action!", "error");
     }
@@ -103,61 +129,121 @@ export const UpdatePackage = () => {
 
       <div id="main-wrapper" className="container">
         <div className="row justify-content-center">
-          <div className="col-xl-5">
+          <div className="col-xl-6">
             <div className="card border-1">
               <div className="card-body p-0">
                 <div className="row no-gutters">
                   <div className="col-lg-12">
+                    <div className="table-responsive">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Package Id</th>
+                            <th scope="col">Percentage</th>
+                            <th scope="col">Days</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Update</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {allPackages.length > 0 ? (
+                            allPackages.map((item, key) => (
+                              <tr key={key + 1}>
+                                <th scope="row">{key + 1}</th>
+                                <td>{item.percentageInBips} </td>
+                                <td>{item.inDays}</td>
+                                <td>{item.active ? "Active" : "In Active"}</td>
+                                <td>
+                                  <ul className="list-inline m-0">
+                                    <li className="list-inline-item">
+                                      <button
+                                        className="btn btn-success btn-sm rounded-0"
+                                        type="button"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Edit"
+                                        onClick={(e) => getPackages(key + 1)}>
+                                        <i className="fa fa-pencil">Update</i>
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="6">No Data Found</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="col-lg-12" id="form_section">
                     <div className="p-3">
                       <div className="mb-3">
                         <h3 className="h4 font-weight-bold text-theme">
-                          Add Packages
+                          Update Packages
                         </h3>
                       </div>
 
-                      <form>
+                      <form onSubmit={updatePackages}>
                         <div className="form-group mb-4">
-                          <label className="fw-medium" htmlFor="SelectPackage">
-                            Select Package Id:
-                          </label>
-                          <select className="form-control custom-select">
-                            <option defaultValue="0">Choose...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                          </select>
-                        </div>
-
-                        <div className="form-group mb-4">
-                          <label className="fw-medium" htmlFor="Percentage">
-                            Percentage (Percentage in Bips):
+                          <label className="fw-medium" htmlFor="packageId">
+                            Package Id:
                           </label>
                           <input
                             type="tel"
                             className="form-control"
-                            id="Percentage"
+                            id="packageId"
+                            value={packageId}
+                            disabled={true}
                           />
                         </div>
 
                         <div className="form-group mb-4">
-                          <label className="fw-medium" htmlFor="Days">
+                          <label className="fw-medium" htmlFor="percentage">
+                            Percentage:
+                          </label>
+                          <input
+                            type="tel"
+                            className="form-control"
+                            id="percentage"
+                            value={packagePercentage}
+                            onChange={percentageHandleChange}
+                          />
+                        </div>
+
+                        <div className="form-group mb-4">
+                          <label className="fw-medium" htmlFor="days">
                             Days (Days in Seconds):
                           </label>
                           <input
                             type="tel"
                             className="form-control"
-                            id="Days"
+                            id="days"
+                            value={packageDays}
+                            onChange={daysHandleChange}
                           />
                         </div>
 
                         <div className="form-group mb-4">
-                          <label className="fw-medium" htmlFor="SelectPackage">
-                            Package Status:
+                          <label
+                            className="fw-medium"
+                            htmlFor="percentageStatus">
+                            Package Status: {"yeah-->> " + packageStatus}
                           </label>
-                          <select className="form-control custom-select">
-                            <option defaultValue="0">Choose...</option>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
+                          <select
+                            className="form-control custom-select"
+                            id="percentageStatus"
+                            value={packageStatus ? "true" : "false"} // Use value instead of defaultValue
+                            onChange={(e) =>
+                              setPackageStatus(e.target.value === "true")
+                            }>
+                            <option value="true">Active</option>
+                            <option value="false">In Active</option>{" "}
+                            {/* Changed "In Active" to "Inactive" */}
                           </select>
                         </div>
 

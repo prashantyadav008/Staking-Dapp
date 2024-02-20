@@ -35,13 +35,16 @@ export const ContractMethods = async () => {
   };
 
   const getPackages = async (id) => {
+    let newResult = {};
     const packages = await staking.methods
       .packages(id)
       .call()
       .then((result) => {
-        result.percentageInBips = Number(result.percentageInBips);
-        result.inDays = Number(result.inDays);
-        return result;
+        newResult.percentageInBips = Number(result.percentageInBips) / 100;
+        newResult.inDays = Number(result.inDays) / 86400;
+        newResult.active = result.active;
+
+        return newResult;
       })
       .catch((error) => {
         console.log("getPackages error--->> ", error);
