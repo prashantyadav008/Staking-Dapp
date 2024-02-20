@@ -4,21 +4,62 @@ import "../../assets/css/pages.css";
 
 import { NavBar } from "../pages/NavBar/index";
 
+import swal from "sweetalert";
+
 import { ContractMethods } from "../smartContract/Web3Modal/ContractMethods";
 
 export const Home = () => {
-  const [walletAddress, setWalletAddress] = useState();
+  const [allPackages, setAllPackage] = useState([]);
+  const [startDate, setStartDate] = useState(0);
+  const [endDate, setEndDate] = useState(0);
+  const [packagePercentage, setPackagePercentage] = useState(0);
+  const [rewardToken, setRewardToken] = useState(0);
 
   useEffect(() => {
     contractMethods();
   }, []);
 
   const contractMethods = async () => {
+    document.getElementById("form_section").classList.add("d-none");
+
     const contract = await ContractMethods();
 
-    let owner = await contract.getOwner();
-    if (owner != false) {
-      setWalletAddress(owner);
+    let totalPackages = await contract.totalPackages();
+
+    let allPackages = await contract.getAllPackages(totalPackages);
+    setAllPackage(allPackages);
+  };
+
+  const getPackages = async (e) => {
+    e.preventDefault();
+
+    let amount = document.querySelector("#amount").value;
+    if (amount <= 0) {
+      swal("Error!", "Amount should be greater than 0", "error");
+      return false;
+    }
+
+    let id = document.querySelector("#package").value;
+
+    const contract = await ContractMethods();
+    let result = await contract.getPackages(id);
+
+    let currentTimestamp = Math.floor(new Date().getTime() / 1000);
+    let endTimestamp = currentTimestamp + result.inDays * 86400;
+
+    let startTime = new Date(currentTimestamp * 1000).toLocaleDateString(
+      "zh-Hans-CN"
+    );
+    let endTime = new Date(endTimestamp * 1000).toLocaleDateString(
+      "zh-Hans-CN"
+    );
+
+    if (result != false) {
+      setStartDate(startTime);
+      setEndDate(endTime);
+      setPackagePercentage(result.percentageInBips);
+      setRewardToken((amount * result.percentageInBips) / 100);
+      document.getElementById("form_section").classList.remove("d-none");
     }
   };
 
@@ -37,7 +78,7 @@ export const Home = () => {
 
         <div className="staking">
           <p>Token Calculations</p>
-          <table className="table   table-secondary">
+          <table className="table table-secondary">
             <thead>
               <tr>
                 <th scope="col">Staked Token</th>
@@ -47,42 +88,26 @@ export const Home = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>100000</td>
-                <td>30</td>
-                <td>7%</td>
-                <td>7000</td>
-              </tr>
-              <tr>
-                <td>100000</td>
-                <td>60</td>
-                <td>10%</td>
-                <td>10000</td>
-              </tr>
-              <tr>
-                <td>100000</td>
-                <td>90</td>
-                <td>15%</td>
-                <td>15000</td>
-              </tr>
-              <tr>
-                <td>100000</td>
-                <td>120</td>
-                <td>20%</td>
-                <td>20000</td>
-              </tr>
-              <tr>
-                <td>100000</td>
-                <td>200</td>
-                <td>40%</td>
-                <td>40000</td>
-              </tr>
-              <tr>
-                <td>100000</td>
-                <td>360</td>
-                <td>60%</td>
-                <td>60000</td>
-              </tr>
+              {allPackages.length > 0 ? (
+                allPackages.map((item, key) =>
+                  item.active ? (
+                    <tr key={key + 1}>
+                      <td>100000</td>
+                      <td>{item.percentageInBips}</td>
+                      <td>{item.inDays}</td>
+                      <td>
+                        {Math.round((100000 * item.percentageInBips) / 100)}
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr key={key + 1}></tr>
+                  )
+                )
+              ) : (
+                <tr>
+                  <td colSpan="6">No Data Found</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -95,7 +120,7 @@ export const Home = () => {
           </small>
 
           <div className="formDetail">
-            <form>
+            <form onSubmit={getPackages}>
               <div className="form-group mb-4">
                 <label className="fw-medium mb-2" htmlFor="amount">
                   Amount
@@ -112,13 +137,27 @@ export const Home = () => {
                 <label className="fw-medium mb-2" htmlFor="package">
                   Period
                 </label>
-                <select className="form-control custom-select w-5" id="package">
-                  <option value="30">30 Days</option>
-                  <option value="60">60 Days</option>
-                  <option value="90">90 Days</option>
-                  <option value="120">120 Days</option>
-                  <option value="250">250 Days</option>
-                  <option value="360">360 Days</option>
+                <select
+                  key="select"
+                  className="form-control custom-select w-5"
+                  id="package"
+                  defaultValue="1">
+                  {allPackages.length > 0 ? (
+                    allPackages.map((item, key) =>
+                      item.active ? (
+                        <option value={key + 1}>
+                          {item.percentageInBips +
+                            "%, " +
+                            item.inDays +
+                            " Days"}
+                        </option>
+                      ) : (
+                        <></>
+                      )
+                    )
+                  ) : (
+                    <option value=""></option>
+                  )}
                 </select>
               </div>
 
@@ -127,23 +166,23 @@ export const Home = () => {
               </button>
             </form>
 
-            <table className="mt-5 table table-light">
+            <table className="mt-5 table table-light" id="form_section">
               <tbody>
                 <tr>
                   <td>Start Date</td>
-                  <td>2024-02-14</td>
+                  <td>{startDate}</td>
                 </tr>
                 <tr>
                   <td>End Date</td>
-                  <td>2024-03-15</td>
+                  <td>{endDate}</td>
                 </tr>
                 <tr>
                   <td>Stake Percentage</td>
-                  <td>7%</td>
+                  <td>{packagePercentage}%</td>
                 </tr>
                 <tr>
                   <td>Reward Tokens</td>
-                  <td>0.005833333333333334</td>
+                  <td>{rewardToken}</td>
                 </tr>
               </tbody>
             </table>

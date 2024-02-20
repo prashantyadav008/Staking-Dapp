@@ -5,19 +5,31 @@ import "./navbar.css";
 
 import { WalletConnection } from "../../smartContract/Web3Modal/Web3Modal";
 
+import { ContractMethods } from "../../smartContract/Web3Modal/ContractMethods";
 export const NavBar = () => {
   const connection = WalletConnection();
 
+  const [owner, setOwner] = useState();
   const [walletAddress, setWalletAddress] = useState(null);
 
   useEffect(() => {
+    contractMethods();
+  }, [connection]);
+
+  const contractMethods = async () => {
     let address = localStorage.getItem("connectedAddress");
     if (address) {
       setWalletAddress(address);
     } else {
       setWalletAddress(null);
     }
-  }, [connection]);
+
+    const contract = await ContractMethods();
+
+    let owner = await contract.getOwner();
+    let newOwner = owner ? owner.toLowerCase() : null;
+    setOwner(newOwner);
+  };
 
   const switchNetwork = async () => {
     await connection.switchNetwork();
@@ -26,7 +38,8 @@ export const NavBar = () => {
   const connectWallet = async () => {
     await connection.connectWallet();
     let address = localStorage.getItem("connectedAddress");
-    setWalletAddress(address);
+    let newAdd = address ? address.toLowerCase() : null;
+    setWalletAddress(newAdd);
   };
 
   const disconnectWallet = async () => {
@@ -81,16 +94,23 @@ export const NavBar = () => {
                   Claim Token
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/addPackage">
-                  Add Package
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/updatePackage">
-                  Update Package
-                </Link>
-              </li>
+
+              {owner == walletAddress ? (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/addPackage">
+                      Add Package
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/updatePackage">
+                      Update Package
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <></>
+              )}
 
               <div className="connectWallet">
                 {walletAddress ? (
