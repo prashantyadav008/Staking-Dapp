@@ -74,11 +74,12 @@ export const AddPackage = () => {
 
         percentage = percentage * 100;
         days = days * 24 * 60 * 60;
-        console.log(percentage, days);
 
         let result = await contract.addPackages(percentage, days);
         if (result) {
           swal("Success!", "Add Packages Successfully!", "success");
+          setPackagePercentage(0);
+          setPackageDays(0);
         } else {
           swal("Error!", "Something went wrong, Package not Added!", "error");
         }
