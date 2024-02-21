@@ -110,6 +110,66 @@ export const ContractMethods = async () => {
     return packages;
   };
 
+  const balanceOf = async () => {
+    const packages = await token.methods
+      .balanceOf(walletAddress)
+      .call()
+      .then((result) => {
+        return Number(result);
+      })
+      .catch((error) => {
+        console.log("balanceOf error--->> ", error);
+        return false;
+      });
+
+    return packages;
+  };
+
+  const allowance = async () => {
+    const packages = await token.methods
+      .allowance(walletAddress, process.env.Staking_Address)
+      .call()
+      .then((result) => {
+        return Number(result);
+      })
+      .catch((error) => {
+        console.log("allowance error--->> ", error);
+        return false;
+      });
+
+    return packages;
+  };
+
+  const mint = async (tokenAmount) => {
+    const packages = await token.methods
+      .mint(walletAddress, tokenAmount)
+      .send({ from: walletAddress })
+      .then(() => {
+        return true;
+      })
+      .catch((error) => {
+        console.log("mint error--->> ", error);
+        return false;
+      });
+
+    return packages;
+  };
+
+  const approveToken = async (tokenAmount) => {
+    const packages = await token.methods
+      .approve(process.env.Staking_Address, tokenAmount)
+      .send({ from: walletAddress })
+      .then(() => {
+        return true;
+      })
+      .catch((error) => {
+        console.log("approveToken error--->> ", error);
+        return false;
+      });
+
+    return packages;
+  };
+
   const addPackages = async (percentage, days) => {
     const packages = await staking.methods
       .addPackages(percentage, days)
@@ -178,7 +238,11 @@ export const ContractMethods = async () => {
     getStakeDetail: getStakeDetail,
     viewStakes: viewStakes,
     stakeList: stakeList,
+    balanceOf: balanceOf,
+    allowance: allowance,
 
+    mint: mint,
+    approveToken: approveToken,
     addPackages: addPackages,
     updatePackages: updatePackages,
     stakeToken: stakeToken,
