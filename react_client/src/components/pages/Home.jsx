@@ -138,22 +138,19 @@ export const Home = () => {
                   Period
                 </label>
                 <select
-                  key="select"
                   className="form-control custom-select w-5"
                   id="package"
                   defaultValue="1">
                   {allPackages.length > 0 ? (
-                    allPackages.map((item, key) =>
+                    allPackages.map((item, index) =>
                       item.active ? (
-                        <option value={key + 1}>
+                        <option key={index} value={index + 1}>
                           {item.percentageInBips +
                             "%, " +
                             item.inDays +
                             " Days"}
                         </option>
-                      ) : (
-                        <></>
-                      )
+                      ) : null
                     )
                   ) : (
                     <option value=""></option>
