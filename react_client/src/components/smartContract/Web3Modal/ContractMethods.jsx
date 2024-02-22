@@ -85,10 +85,41 @@ export const ContractMethods = async () => {
       .viewStakes(walletAddress)
       .call()
       .then((result) => {
-        return result;
+        let allStakes = result.map(
+          ({
+            stakeAmount,
+            totalClaimedReward,
+            percentageInBips,
+            inDays,
+            createdAt,
+            withdrawAt,
+            claimed,
+          }) => {
+            let createdTime = Number(createdAt) * 1000;
+            let withdrawTime;
+            if (Number(withdrawTime) > 0) {
+              let withdrawTime1 = (Number(withdrawAt) + Number(inDays)) * 1000;
+              withdrawTime = new Date(withdrawTime1).toLocaleDateString("sv");
+            } else {
+              withdrawTime = Number(withdrawAt);
+            }
+
+            return {
+              stakeAmount: Number(stakeAmount),
+              totalClaimedReward: Number(totalClaimedReward),
+              percentageInBips: Number(percentageInBips) / 100,
+              inDays: Number(inDays) / 86400,
+              createdAt: new Date(createdTime).toLocaleDateString("sv"),
+              withdrawAt: withdrawTime,
+              claimed: claimed,
+            };
+          }
+        );
+
+        return allStakes;
       })
       .catch((error) => {
-        console.log("getPackages error--->> ", error);
+        console.log("viewStakes error--->> ", error);
         return false;
       });
 
@@ -112,6 +143,21 @@ export const ContractMethods = async () => {
 
   const balanceOf = async () => {
     const packages = await token.methods
+      .balanceOf(walletAddress)
+      .call()
+      .then((result) => {
+        return Number(result);
+      })
+      .catch((error) => {
+        console.log("balanceOf error--->> ", error);
+        return false;
+      });
+
+    return packages;
+  };
+
+  const rewardBalanceOf = async () => {
+    const packages = await reward.methods
       .balanceOf(walletAddress)
       .call()
       .then((result) => {
@@ -203,7 +249,7 @@ export const ContractMethods = async () => {
   const stakeToken = async (packageId, stakeAmount) => {
     const packages = await staking.methods
       .stakeToken(packageId, stakeAmount)
-      .call()
+      .send({ from: walletAddress })
       .then(() => {
         return true;
       })
@@ -239,6 +285,7 @@ export const ContractMethods = async () => {
     viewStakes: viewStakes,
     stakeList: stakeList,
     balanceOf: balanceOf,
+    rewardBalanceOf: rewardBalanceOf,
     allowance: allowance,
 
     mint: mint,
