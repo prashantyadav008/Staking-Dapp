@@ -85,8 +85,13 @@ export const NavBar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/calculateToken">
-                  Calculate Token
+                <Link className="nav-link" to="/mintToken">
+                  Mint Token
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/viewStakes">
+                  View Stakes
                 </Link>
               </li>
               <li className="nav-item">

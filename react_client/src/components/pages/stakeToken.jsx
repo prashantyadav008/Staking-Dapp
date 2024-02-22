@@ -10,8 +10,8 @@ export const StakeToken = () => {
   const [walletAddress, setWalletAddress] = useState();
   const [allPackages, setAllPackage] = useState([]);
 
-  const [stakeAmount, setStakeAmount] = useState("");
-  const [balanceOf, setBalanceOf] = useState();
+  const [stakeAmount, setStakeAmount] = useState(0);
+  const [rewardBalance, setRewardBalance] = useState(0);
   const [allowance, setAllowance] = useState();
 
   useEffect(() => {
@@ -29,9 +29,10 @@ export const StakeToken = () => {
     const contract = await ContractMethods();
 
     let owner = await contract.getOwner();
-    if (owner != false) {
-      setOwner(owner);
-    }
+    setOwner(owner);
+
+    let rewardBalanceOf = await contract.rewardBalanceOf();
+    setRewardBalance(rewardBalanceOf);
 
     let totalPackages = await contract.totalPackages();
 
@@ -40,9 +41,6 @@ export const StakeToken = () => {
 
     let allowance = await contract.allowance();
     setAllowance(allowance);
-
-    let balanceOf = await contract.balanceOf();
-    setBalanceOf(balanceOf);
   };
 
   const handleChange = (e) => {
@@ -51,7 +49,7 @@ export const StakeToken = () => {
     if (e.target.value !== "" && regex.test(e.target.value)) {
       setStakeAmount(e.target.value);
     } else if (e.target.value === "") {
-      setStakeAmount("");
+      setStakeAmount(0);
     }
   };
 
@@ -64,50 +62,49 @@ export const StakeToken = () => {
     if (walletAddress1 == owner1 && walletAddress1 != null) {
       document.getElementById("loaderVisibility").classList.add("is-active");
 
-      let id = document.querySelector("#packageId").value;
-      let amount = document.querySelector("#stakeAmount").value;
+      try {
+        let id = document.querySelector("#packageId").value;
+        let amount = document.querySelector("#stakeAmount").value;
 
-      const contract = await ContractMethods();
-
-      console.log("amount , balanceOf--->> ", amount, balanceOf);
-      if (amount > balanceOf) {
-        let result = await contract.mint(amount);
-
-        console.log("result11", result);
-
-        if (!result) {
-          swal("Error!", "Token not Minted!", "error");
+        if (id <= 0) {
+          swal("Erorr!", "Id is not valid!", "error");
           document
             .getElementById("loaderVisibility")
             .classList.remove("is-active");
           return false;
         }
-      }
 
-      if (amount > allowance) {
-        let result = await contract.approveToken(amount - allowance);
-
-        if (!result) {
-          swal("Error!", "Token not Approved!", "error");
+        if (amount <= 10000) {
+          swal("Erorr!", "Amount should be greater than 10000!", "error");
           document
             .getElementById("loaderVisibility")
             .classList.remove("is-active");
           return false;
         }
-      }
 
-      if (percentage > 0 && days > 0) {
-        percentage = percentage * 100;
-        days = days * 24 * 60 * 60;
+        const contract = await ContractMethods();
 
-        let result = await contract.stakeToken(id, amount);
-        if (result) {
+        if (amount > allowance) {
+          let approveStatus = await contract.approveToken(amount - allowance);
+          if (!approveStatus) {
+            swal("Error!", "Token not Approved!", "error");
+            document
+              .getElementById("loaderVisibility")
+              .classList.remove("is-active");
+            await contractMethods();
+
+            return false;
+          }
+        }
+
+        let stakeStatus = await contract.stakeToken(id, amount);
+        if (stakeStatus) {
           swal("Success!", "Package Submit Successfully!", "success");
         } else {
           swal("Error!", "Something went wrong, Package not Added!", "error");
         }
-      } else {
-        swal("Error!", "Invalid Values!", "error");
+      } catch (error) {
+        console.log("stake error-->> ", error);
       }
 
       document.getElementById("loaderVisibility").classList.remove("is-active");
@@ -156,7 +153,9 @@ export const StakeToken = () => {
                                 ) : null
                               )
                             ) : (
-                              <option key="empty" value=""></option>
+                              <option key="empty" value="">
+                                Choose Package...
+                              </option>
                             )}
                           </select>
                         </div>
@@ -187,9 +186,9 @@ export const StakeToken = () => {
                       <div className="overlay rounded-right"></div>
                       <div className="account-testimonial">
                         <h4 className="text-white mb-4">
-                          Selected Package Token Rewards!
+                          Earned Rewards Token!
                         </h4>
-                        <p className="lead text-white">0</p>
+                        <p className="lead text-white">{rewardBalance}</p>
                       </div>
                     </div>
                   </div>

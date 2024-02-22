@@ -70,8 +70,8 @@ export const Home = () => {
         <div className="banner">
           <div className="bannerText">
             <p>
-              Lock, Earn, and Grow Your Assets! Areon Stake is the easy and
-              reliable way to secure your assets while earning passive income.
+              Lock, Earn, and Grow Your Assets! Stake is the easy and reliable
+              way to secure your assets while earning passive income.
             </p>
           </div>
         </div>
