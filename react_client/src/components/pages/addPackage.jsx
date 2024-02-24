@@ -121,6 +121,7 @@ export const AddPackage = () => {
                             id="percentage"
                             value={packagePercentage}
                             onChange={percentageHandleChange}
+                            placeholder="Enter Percentage"
                           />
                         </div>
 
@@ -134,6 +135,7 @@ export const AddPackage = () => {
                             id="days"
                             value={packageDays}
                             onChange={daysHandleChange}
+                            placeholder="Enter Days"
                           />
                         </div>
 

@@ -5,6 +5,12 @@
   text-align: center;
 }
 
+.btn:hover {
+  color: #000000 !important;
+  background-color: #ffa6e9 !important;
+  border-color: #ffa6e9 !important;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

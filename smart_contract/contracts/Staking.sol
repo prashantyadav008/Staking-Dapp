@@ -88,7 +88,7 @@ contract Staking is IStake {
 
     require(p1.active, "Stake: Package not Active Yet!");
 
-    require(_stakeAmount > 10000, "Stake: Stake Amount is greater than 10000!");
+    require(_stakeAmount >= 10000, "Stake: Stake Amount is greater than 10000!");
 
     require(
       stakingToken.balanceOf(msg.sender) >= _stakeAmount,
@@ -138,9 +138,13 @@ contract Staking is IStake {
 
     // calculate total per second reward generated more time after staking time completed
 
-    uint calculate = (block.timestamp - s1.createdAt) * perSecond;
-    calculate = Math.ceilDiv(calculate, 10 ** 8);
 
+    uint calculate = 0;
+    if(block.timestamp>s1.createdAt){
+      calculate = (block.timestamp - s1.createdAt) * perSecond;
+      calculate = Math.ceilDiv(calculate, 10 ** 8);
+    }
+    
     return (perSecond, calculate);
   }
 

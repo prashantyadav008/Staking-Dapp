@@ -11,7 +11,7 @@ export const StakeToken = () => {
   const [allPackages, setAllPackage] = useState([]);
 
   const [stakeAmount, setStakeAmount] = useState(0);
-  const [rewardBalance, setRewardBalance] = useState(0);
+  const [balanceOf, setBalanceOf] = useState(0);
   const [allowance, setAllowance] = useState();
 
   useEffect(() => {
@@ -31,8 +31,8 @@ export const StakeToken = () => {
     let owner = await contract.getOwner();
     setOwner(owner);
 
-    let rewardBalanceOf = await contract.rewardBalanceOf();
-    setRewardBalance(rewardBalanceOf);
+    let balanceOf = await contract.balanceOf();
+    setBalanceOf(balanceOf);
 
     let totalPackages = await contract.totalPackages();
 
@@ -74,7 +74,7 @@ export const StakeToken = () => {
           return false;
         }
 
-        if (amount <= 10000) {
+        if (amount < 9999) {
           swal("Erorr!", "Amount should be greater than 10000!", "error");
           document
             .getElementById("loaderVisibility")
@@ -185,10 +185,8 @@ export const StakeToken = () => {
                     <div className="account-block rounded-right">
                       <div className="overlay rounded-right"></div>
                       <div className="account-testimonial">
-                        <h4 className="text-white mb-4">
-                          Earned Rewards Token!
-                        </h4>
-                        <p className="lead text-white">{rewardBalance}</p>
+                        <h4 className="text-white mb-4">Total Stake Token!</h4>
+                        <p className="lead text-white">{balanceOf}</p>
                       </div>
                     </div>
                   </div>

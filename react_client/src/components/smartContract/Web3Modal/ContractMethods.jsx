@@ -65,9 +65,9 @@ export const ContractMethods = async () => {
     return viewAllPAckages;
   };
 
-  const getStakeDetail = async (account, id) => {
+  const getStakeDetail = async (id) => {
     const packages = await staking.methods
-      ._stakes(account, id)
+      ._stakes(walletAddress, id)
       .call()
       .then((result) => {
         return result;
