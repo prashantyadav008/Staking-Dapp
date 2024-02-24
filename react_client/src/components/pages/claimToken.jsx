@@ -62,7 +62,7 @@ export const ClaimToken = () => {
         if (stakeStatus) {
           swal("Success!", "Reward Token Claimed Successfully!", "success");
         } else {
-          swal("Error!", "Something went wrong, Package not Added!", "error");
+          swal("Error!", "Something went wrong, Token not Claimed!", "error");
         }
       } catch (error) {
         console.log("stake error-->> ", error);

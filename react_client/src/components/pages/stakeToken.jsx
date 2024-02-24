@@ -74,7 +74,7 @@ export const StakeToken = () => {
           return false;
         }
 
-        if (amount <= 10000) {
+        if (amount < 9999) {
           swal("Erorr!", "Amount should be greater than 10000!", "error");
           document
             .getElementById("loaderVisibility")

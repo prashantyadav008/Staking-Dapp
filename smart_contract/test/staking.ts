@@ -304,6 +304,21 @@ describe("Staking Token Contract", () => {
   });
 
   describe("Calculate Reward Token Methods", () => {
+    it("Should check Calculate Reward before Time Completed", async () => {
+      const { staking, users, stake, } = await loadFixture(indexer);
+
+      await staking.connect(users[1]).stakeToken(0, 50000);
+      let s1 = await staking._stakes(users[1].address, 0);
+
+      // after time staking completed calulate percentage of stake
+      let percentage = (s1.stakeAmount.mul(s1.percentageInBips)).div(10000);
+
+      // calculate per second reward generated
+      let perSecond = (percentage.mul(10 ** 8)).div(s1.inDays);
+
+      expect(await staking.calculateStake(users[1].address, 0)).to.have.deep.members([perSecond, 0]);
+    });
+
     it("Should check Calculate Reward for All User", async () => {
       const { calculateReward, staking, users, stake, } = await loadFixture(indexer);
 
