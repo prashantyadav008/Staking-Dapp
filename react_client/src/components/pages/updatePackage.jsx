@@ -134,6 +134,11 @@ export const UpdatePackage = () => {
               <div className="card-body p-0">
                 <div className="row no-gutters">
                   <div className="col-lg-12">
+                    <div className="mb-3">
+                      <h3 className="h4 font-weight-bold text-theme">
+                        View All Packages
+                      </h3>
+                    </div>
                     <div className="table-responsive">
                       <table className="table">
                         <thead>
@@ -151,7 +156,7 @@ export const UpdatePackage = () => {
                             allPackages.map((item, key) => (
                               <tr key={key + 1}>
                                 <th scope="row">{key + 1}</th>
-                                <td>{item.percentageInBips} </td>
+                                <td>{item.percentageInBips + "%"} </td>
                                 <td>{item.inDays}</td>
                                 <td>{item.active ? "Active" : "In Active"}</td>
                                 <td>
