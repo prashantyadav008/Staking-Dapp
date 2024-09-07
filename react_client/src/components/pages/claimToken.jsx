@@ -38,11 +38,24 @@ export const ClaimToken = () => {
     let walletAddress1 = walletAddress ? walletAddress.toLowerCase() : null;
     let owner1 = owner ? owner.toLowerCase() : null;
 
+    if (walletAddress1 == null) {
+      swal("Error!", "Please Connect Wallet!", "error");
+
+      return false;
+    }
+
     if (walletAddress1 == owner1 && walletAddress1 != null) {
       document.getElementById("loaderVisibility").classList.add("is-active");
 
       try {
         let id = document.querySelector("#stakeId").value;
+        if (id <= 0) {
+          swal("Erorr!", "Id is not valid!", "error");
+          document
+            .getElementById("loaderVisibility")
+            .classList.remove("is-active");
+          return false;
+        }
 
         const contract = await ContractMethods();
         let stake = await contract.getStakeDetail(id);
@@ -69,12 +82,16 @@ export const ClaimToken = () => {
         }
       } catch (error) {
         console.log("stake error-->> ", error);
+        swal("Error!", "Something went wrong, Token not Claimed!", "error");
+        document
+          .getElementById("loaderVisibility")
+          .classList.remove("is-active");
       }
 
       document.getElementById("loaderVisibility").classList.remove("is-active");
       await contractMethods();
     } else {
-      swal("Error!", "Only Contract Owner can perform this action!", "error");
+      swal("Error!", "Something went wrong!", "error");
     }
   };
 

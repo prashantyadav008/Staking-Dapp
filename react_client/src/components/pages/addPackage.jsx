@@ -91,6 +91,7 @@ export const AddPackage = () => {
       document.getElementById("loaderVisibility").classList.remove("is-active");
     } else {
       swal("Error!", "Only Contract Owner can perform this action!", "error");
+      document.getElementById("loaderVisibility").classList.remove("is-active");
     }
   };
 

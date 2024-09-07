@@ -73,7 +73,7 @@ export const ViewStakes = () => {
                       </h3>
                     </div>
                     <div className="table-responsive">
-                      <table className="table">
+                      <table className="table table-bordered table-hover table-striped">
                         <thead>
                           <tr>
                             <th scope="col">Stake Id</th>
@@ -91,7 +91,7 @@ export const ViewStakes = () => {
                               <tr key={key + 1}>
                                 <th scope="row">{key + 1}</th>
                                 <td>{item.stakeAmount}</td>
-                                <td>{item.percentageInBips}%</td>
+                                <td>{item.percentageInBips} %</td>
                                 <td>{item.inDays}</td>
                                 <td>{item.createdAt}</td>
                                 <td>
@@ -104,7 +104,7 @@ export const ViewStakes = () => {
                             ))
                           ) : (
                             <tr>
-                              <td colSpan="6">No Data Found</td>
+                              <td colSpan="8">No Data Found</td>
                             </tr>
                           )}
                         </tbody>

@@ -8,6 +8,7 @@ import { ContractMethods } from "../smartContract/Web3Modal/ContractMethods";
 import swal from "sweetalert";
 
 export const MintToken = () => {
+  const [walletAddress, setWalletAddress] = useState();
   const [mintAmount, setMintAmount] = useState("");
   const [balanceOf, setBalanceOf] = useState(0);
 
@@ -16,6 +17,13 @@ export const MintToken = () => {
   }, []);
 
   const contractMethods = async () => {
+    let address = localStorage.getItem("connectedAddress");
+    if (address) {
+      setWalletAddress(address);
+    } else {
+      setWalletAddress(null);
+    }
+
     const contract = await ContractMethods();
     let balanceOf = await contract.balanceOf();
     setBalanceOf(balanceOf);
@@ -36,6 +44,12 @@ export const MintToken = () => {
 
   const mintingToken = async (event) => {
     event.preventDefault();
+
+    if (walletAddress == null) {
+      swal("Error!", "Please Connect Wallet!", "error");
+
+      return false;
+    }
 
     document.getElementById("loaderVisibility").classList.add("is-active");
 
@@ -58,6 +72,8 @@ export const MintToken = () => {
       }
     } catch (error) {
       console.log("stake error-->> ", error);
+      swal("Error!", "Something went wrong!", "error");
+      document.getElementById("loaderVisibility").classList.remove("is-active");
     }
 
     await contractMethods();

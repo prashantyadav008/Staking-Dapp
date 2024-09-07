@@ -61,6 +61,13 @@ export const StakeToken = () => {
     let walletAddress1 = walletAddress ? walletAddress.toLowerCase() : null;
     let owner1 = owner ? owner.toLowerCase() : null;
 
+    if (walletAddress == null) {
+      swal("Error!", "Please Connect Wallet!", "error");
+
+      document.getElementById("loaderVisibility").classList.remove("is-active");
+      return false;
+    }
+
     if (walletAddress1 == owner1 && walletAddress1 != null) {
       document.getElementById("loaderVisibility").classList.add("is-active");
 
@@ -85,6 +92,19 @@ export const StakeToken = () => {
         }
 
         const contract = await ContractMethods();
+        if (amount > balanceOf) {
+          swal(
+            "Error!",
+            "Not Enough Balance to Stake!, Mint Stake Token First",
+            "error"
+          );
+          document
+            .getElementById("loaderVisibility")
+            .classList.remove("is-active");
+          await contractMethods();
+
+          return false;
+        }
 
         if (amount > allowance) {
           let approveStatus = await contract.approveToken(amount - allowance);
@@ -112,7 +132,7 @@ export const StakeToken = () => {
       document.getElementById("loaderVisibility").classList.remove("is-active");
       await contractMethods();
     } else {
-      swal("Error!", "Only Contract Owner can perform this action!", "error");
+      swal("Error!", "Something went wrong in Stake Amount!", "error");
     }
   };
 
@@ -187,7 +207,9 @@ export const StakeToken = () => {
                     <div className="account-block rounded-right">
                       <div className="overlay rounded-right"></div>
                       <div className="account-testimonial">
-                        <h4 className="text-white mb-4">Total Stake Token!</h4>
+                        <h4 className="text-white mb-4">
+                          You Have Total Stake Token!
+                        </h4>
                         <p className="lead text-white">{balanceOf}</p>
                       </div>
                     </div>

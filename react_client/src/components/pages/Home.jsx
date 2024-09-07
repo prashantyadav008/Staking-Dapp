@@ -83,10 +83,10 @@ export const Home = () => {
           <table className="table table-secondary">
             <thead>
               <tr>
-                <td colSpan="2">Staked Token</td>
-                <td colSpan="1">Stake Percentage</td>
-                <td colSpan="1">Days</td>
-                <td colSpan="2">Reward Token</td>
+                <td>Staked Token</td>
+                <td>Stake Percentage</td>
+                <td>Days</td>
+                <td>Reward Token</td>
               </tr>
             </thead>
             <tbody>
@@ -94,10 +94,10 @@ export const Home = () => {
                 allPackages.map((item, key) =>
                   item.active ? (
                     <tr key={key + 1}>
-                      <td colSpan="2">100000</td>
-                      <td colSpan="1">{item.percentageInBips} %</td>
-                      <td colSpan="1">{item.inDays} </td>
-                      <td colSpan="2">
+                      <td>100000</td>
+                      <td>{item.percentageInBips} %</td>
+                      <td>{item.inDays} </td>
+                      <td>
                         {Math.round((100000 * item.percentageInBips) / 100)}
                       </td>
                     </tr>
@@ -107,7 +107,7 @@ export const Home = () => {
                 )
               ) : (
                 <tr>
-                  <td colSpan="6">No Data Found</td>
+                  <td colSpan="4">No Data Found</td>
                 </tr>
               )}
             </tbody>

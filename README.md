@@ -1,4 +1,10 @@
+<!-- @format -->
+
 # Staking Dapp
+
+#### Checkout Website
+
+    https://staking-plateform.netlify.app/
 
 This is a basic staking dapp project, which is written in Solidity and React. Solidity is used to write smart contracts for the backend, and React JS is used for the client-side or frontend.
 
