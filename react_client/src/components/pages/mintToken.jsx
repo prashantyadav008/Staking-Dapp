@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/** @format */
+
+import { useState, useEffect } from "react";
 
 import { NavBar } from "./NavBar/index";
 

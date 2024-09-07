@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/** @format */
+
+import { useState, useEffect } from "react";
 
 import { NavBar } from "../pages/NavBar/index";
 
@@ -127,7 +129,7 @@ export const AddPackage = () => {
 
                         <div className="form-group mb-4">
                           <label className="fw-medium" htmlFor="days">
-                            Days (Days in Seconds):
+                            Staked Days :
                           </label>
                           <input
                             type="tel"

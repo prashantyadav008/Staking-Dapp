@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+/** @format */
+
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import "./navbar.css";
 
@@ -61,7 +63,7 @@ export const NavBar = () => {
             Looks like your current network selection is not supported. Please{" "}
             <span className="fw-semibold">
               <Link onClick={switchNetwork}>
-                Switch to the Polygon blockchain network{" "}
+                Switch to the Sepolia blockchain network{" "}
               </Link>
               in your wallet to continue,
             </span>

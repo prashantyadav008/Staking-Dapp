@@ -44,6 +44,6 @@ main()
     process.exit(1);
   });
 
-// ERC20 Token Address->  https://mumbai.polygonscan.com/address/0x7397e0440BcE5A39F8BaCD6690551090922A7aB9#code
-// Reward Token Address->  https://mumbai.polygonscan.com/address/0xbe51BCB26B434553c1b45b6BEd218745A1EfB286#code
-// Staking Token Address->  https://mumbai.polygonscan.com/address/0x4EcF25b8893DFD44208EF4528EA33a3Cee25B0b2#code
+// ERC20 Token   --->> https://sepolia.etherscan.io/address/0xaae34aFdD1C896Cc295D3A6819b3E66D3d9e95c2#code
+// Reward Token  --->> https://sepolia.etherscan.io/address/0x77046abb72C959C3f8a9bCeaF7AeAD5Fb088A2Ee#code
+// Staking Token --->> https://sepolia.etherscan.io/address/0x4991EF504EA0303A39A26aBe1008245439EC2c60#code

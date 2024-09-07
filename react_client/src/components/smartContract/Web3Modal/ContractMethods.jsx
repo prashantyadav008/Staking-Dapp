@@ -1,3 +1,5 @@
+/** @format */
+
 import { ContractInstance } from "./Web3Modal";
 
 export const ContractMethods = async () => {
@@ -173,6 +175,7 @@ export const ContractMethods = async () => {
 
   const allowance = async () => {
     const packages = await token.methods
+      // eslint-disable-next-line no-undef
       .allowance(walletAddress, process.env.Staking_Address)
       .call()
       .then((result) => {
@@ -203,6 +206,7 @@ export const ContractMethods = async () => {
 
   const approveToken = async (tokenAmount) => {
     const packages = await token.methods
+      // eslint-disable-next-line no-undef
       .approve(process.env.Staking_Address, tokenAmount)
       .send({ from: walletAddress })
       .then(() => {

@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/** @format */
+
+import { useState, useEffect } from "react";
 
 import { NavBar } from "../pages/NavBar/index";
 
@@ -146,7 +148,7 @@ export const StakeToken = () => {
                                 item.active ? (
                                   <option key={index} value={index + 1}>
                                     {item.percentageInBips +
-                                      "%, " +
+                                      "% in " +
                                       item.inDays +
                                       " Days"}
                                   </option>

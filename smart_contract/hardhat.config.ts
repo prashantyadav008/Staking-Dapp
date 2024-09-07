@@ -24,21 +24,8 @@ const config: HardhatUserConfig = {
   },
 
   networks: {
-    goerli: {
-      url: process.env.ALCHEMY_GOERLI_API_KEY,
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-    },
-
-    hardhat: {},
-
-    polygon_mumbai: {
-      url: process.env.ALCHEMY_POLYGON_API_KEY,
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-    },
-    mumbai: {
-      url: process.env.ALCHEMY_POLYGON_API_KEY_MAINNET,
+    sepolia: {
+      url: process.env.ALCHEMY_SEPOLIA_API_KEY,
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
@@ -49,7 +36,7 @@ const config: HardhatUserConfig = {
   },
 
   etherscan: {
-    apiKey: process.env.POLYGONSCAN_API_KEY,
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
 };
 

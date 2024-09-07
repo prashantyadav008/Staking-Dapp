@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/** @format */
+
+import { useState, useEffect } from "react";
 
 import "../../assets/css/pages.css";
 
@@ -81,10 +83,10 @@ export const Home = () => {
           <table className="table table-secondary">
             <thead>
               <tr>
-                <th scope="col">Staked Token</th>
-                <th scope="col">Days</th>
-                <th scope="col">Stake Percentage</th>
-                <th scope="col">Reward Token</th>
+                <td colSpan="2">Staked Token</td>
+                <td colSpan="1">Stake Percentage</td>
+                <td colSpan="1">Days</td>
+                <td colSpan="2">Reward Token</td>
               </tr>
             </thead>
             <tbody>
@@ -92,10 +94,10 @@ export const Home = () => {
                 allPackages.map((item, key) =>
                   item.active ? (
                     <tr key={key + 1}>
-                      <td>100000</td>
-                      <td>{item.percentageInBips}</td>
-                      <td>{item.inDays}</td>
-                      <td>
+                      <td colSpan="2">100000</td>
+                      <td colSpan="1">{item.percentageInBips} %</td>
+                      <td colSpan="1">{item.inDays} </td>
+                      <td colSpan="2">
                         {Math.round((100000 * item.percentageInBips) / 100)}
                       </td>
                     </tr>

@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/** @format */
+
+import { useState, useEffect } from "react";
 import { NavBar } from "../pages/NavBar/index";
 import { ContractMethods } from "../smartContract/Web3Modal/ContractMethods";
 import swal from "sweetalert";
@@ -58,6 +60,7 @@ export const ClaimToken = () => {
           return false;
         }
 
+        // eslint-disable-next-line no-undef
         let stakeStatus = await contract.stakeToken(id, amount);
         if (stakeStatus) {
           swal("Success!", "Reward Token Claimed Successfully!", "success");

@@ -1,3 +1,5 @@
+/** @format */
+
 .account-block {
   padding: 0;
   background-image: url(https://bootdey.com/img/Content/bg1.jpg);
@@ -29,12 +31,12 @@
 }
 
 .text-theme {
-  color: #5369f8 !important;
+  color: #061c3d !important;
 }
 
 .btn-theme {
-  background-color: #5369f8;
-  border-color: #5369f8;
+  background-color: #061c3d;
+  border-color: #061c3d;
   color: #fff;
 }
 
@@ -77,24 +79,24 @@
 .homeSection .staking p {
   font-weight: 500;
   font-size: 2rem;
-  color: #005988;
+  color: #061c3d;
 }
 
 .homeSection .staking table {
-  --bs-table-bg: #005988;
+  --bs-table-bg: #061c3d;
   --bs-table-color: #ffffff;
   table-layout: fixed;
 }
 
 .homeSection .staking table tbody:hover {
-  --bs-table-bg: #005988;
+  --bs-table-bg: #061c3d;
   --bs-table-color: #ffffff;
 }
 
 .homeSection .calculateToken p {
   font-weight: 500;
   font-size: 2rem;
-  color: #005988;
+  color: #061c3d;
   margin: 0 auto;
 }
 
@@ -107,7 +109,7 @@
   font-size: 1.2rem;
   margin-top: 2rem;
   border-radius: 15px;
-  background-color: #005988;
+  background-color: #061c3d;
   color: #ffffff;
   box-shadow: 0 0 7px rgb(0 89 136);
 }

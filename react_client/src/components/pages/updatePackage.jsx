@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+/** @format */
+
+import { useState, useEffect } from "react";
 
 import { NavBar } from "../pages/NavBar/index";
 
@@ -140,7 +142,7 @@ export const UpdatePackage = () => {
                       </h3>
                     </div>
                     <div className="table-responsive">
-                      <table className="table">
+                      <table className="table table-bordered table-hover table-striped">
                         <thead>
                           <tr>
                             <th scope="col">Package Id</th>
@@ -158,16 +160,22 @@ export const UpdatePackage = () => {
                                 <th scope="row">{key + 1}</th>
                                 <td>{item.percentageInBips + "%"} </td>
                                 <td>{item.inDays}</td>
-                                <td>{item.active ? "Active" : "In Active"}</td>
+                                <td
+                                  style={{
+                                    color: item.active ? "green" : "red",
+                                  }}>
+                                  {item.active ? "Active" : "In Active"}
+                                </td>
                                 <td>
                                   <ul className="list-inline m-0">
                                     <li className="list-inline-item">
                                       <button
-                                        className="btn btn-success btn-sm rounded-0"
+                                        className="btn btn-primary btn-sm rounded-0"
                                         type="button"
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         title="Edit"
+                                        // eslint-disable-next-line no-unused-vars
                                         onClick={(e) => getPackages(key + 1)}>
                                         <i className="fa fa-pencil">Update</i>
                                       </button>
@@ -222,7 +230,7 @@ export const UpdatePackage = () => {
 
                         <div className="form-group mb-4">
                           <label className="fw-medium" htmlFor="days">
-                            Days (Days in Seconds):
+                            Staked Days :
                           </label>
                           <input
                             type="tel"

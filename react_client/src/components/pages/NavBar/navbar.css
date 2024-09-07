@@ -1,3 +1,5 @@
+/** @format */
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -21,7 +23,7 @@ ul {
   top: 0;
   left: 0;
   right: 0;
-  background-color: #ffa6e9;
+  background-color: #061c3d;
 }
 
 #full-embed header .connectWallet {
@@ -58,7 +60,7 @@ ul {
   display: block;
   padding: 0 10px;
   text-decoration: none;
-  color: #0e0e99;
+  color: #ffffff;
 }
 
 #full-embed #actions .hl {
@@ -161,5 +163,5 @@ heading {
 
 #full-embed header .connectWallet .buttonDropdown {
   background-color: ghostwhite;
-  color: #ef0cb7;
+  color: #061c3d;
 }

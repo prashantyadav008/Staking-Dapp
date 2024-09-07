@@ -1,17 +1,17 @@
 # Network Chain ID
 
-REACT_APP_ChainId=80001
+REACT_APP_ChainId=11155111
 
-# Alchemy Api URl for Polygon Mumbai Network Network
+# Alchemy Api URl for Sepolia Testnet Network
 
-REACT_APP_ALCHEMY_POLYGON_NAME=Mumbai Polygon testnet
-REACT_APP_ALCHEMY_POLYGON_API_KEY=
-REACT_APP_ALCHEMY_POLYGON_SITE_URL=https://mumbai.polygonscan.com/
+REACT_APP_ALCHEMY_SEPOLIA_NAME=Sepolia Testnet
+REACT_APP_ALCHEMY_SEPOLIA_API_KEY=https://eth-sepolia.g.alchemy.com/v2/demo
+REACT_APP_ALCHEMY_SEPOLIA_SITE_URL=https://sepolia.etherscan.i
 
-REACT_APP_ALCHEMY_POLYGON_SYMBOL=MATIC
+REACT_APP_ALCHEMY_SEPOLIA_SYMBOL=ETH
 
 # Contract Addresses
 
-ERC20_Address=0x7397e440bce5a39f8bacd6690551090922a7ab9;
-Reward_Address=0xbe51bcb26b434553c1b45b6bed218745a1efb286;
-Staking_Address=0x4ecf25b8893dfd44208ef4528ea33a3cee25b0b2;
+ERC20_Address=0xaae34aFdD1C896Cc295D3A6819b3E66D3d9e95c2
+Reward_Address=0x77046abb72C959C3f8a9bCeaF7AeAD5Fb088A2Ee
+Staking_Address=0x4991EF504EA0303A39A26aBe1008245439EC2c60

@@ -1,3 +1,5 @@
+/** @format */
+
 import { useState, useEffect } from "react";
 import { Web3 } from "web3";
 import swal from "sweetalert";
@@ -7,11 +9,13 @@ import RewardToken_ABI from "../ABI/RewardToken_ABI.json";
 import Staking_ABI from "../ABI/Staking_ABI.json";
 
 export const Web3Index = async () => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     const web3 = new Web3(window.ethereum);
 
     const chainId = (await web3.eth.getChainId()).toString();
 
+    // eslint-disable-next-line no-undef
     if (chainId !== process.env.REACT_APP_ChainId) {
       var modal = document.getElementById("myModal");
       modal.style.display = "block";
@@ -26,12 +30,15 @@ export const Web3Index = async () => {
 };
 
 export const ContractInstance = async () => {
+  // eslint-disable-next-line no-undef
   let ercContract = process.env.ERC20_Address;
   let ercAbi = ERC20Token_ABI;
 
+  // eslint-disable-next-line no-undef
   let rewardContract = process.env.Reward_Address;
   let rewardAbi = RewardToken_ABI;
 
+  // eslint-disable-next-line no-undef
   let stakingContract = process.env.Staking_Address;
   let stakingAbi = Staking_ABI;
 
@@ -117,6 +124,7 @@ export const WalletConnection = () => {
         method: "wallet_switchEthereumChain",
         params: [
           {
+            // eslint-disable-next-line no-undef
             chainId: Web3.utils.toHex(parseInt(process.env.REACT_APP_ChainId)),
           },
         ],
@@ -129,17 +137,23 @@ export const WalletConnection = () => {
             params: [
               {
                 chainId: Web3.utils.toHex(
+                  // eslint-disable-next-line no-undef
                   parseInt(process.env.REACT_APP_ChainId)
                 ),
-                rpcUrls: [process.env.REACT_APP_ALCHEMY_POLYGON_API_KEY],
-                chainName: process.env.REACT_APP_ALCHEMY_POLYGON_NAME,
+                // eslint-disable-next-line no-undef
+                rpcUrls: [process.env.REACT_APP_ALCHEMY_SEPOLIA_API_KEY],
+                // eslint-disable-next-line no-undef
+                chainName: process.env.REACT_APP_ALCHEMY_SEPOLIA_NAME,
                 nativeCurrency: {
-                  name: process.env.REACT_APP_ALCHEMY_POLYGON_NAME,
-                  symbol: process.env.REACT_APP_ALCHEMY_POLYGON_SYMBOL, // 2-6 characters long
+                  // eslint-disable-next-line no-undef
+                  name: process.env.REACT_APP_ALCHEMY_SEPOLIA_NAME,
+                  // eslint-disable-next-line no-undef
+                  symbol: process.env.REACT_APP_ALCHEMY_SEPOLIA_SYMBOL, // 2-6 characters long
                   decimals: 18,
                 },
                 blockExplorerUrls: [
-                  process.env.REACT_APP_ALCHEMY_POLYGON_SITE_URL,
+                  // eslint-disable-next-line no-undef
+                  process.env.REACT_APP_ALCHEMY_SEPOLIA_SITE_URL,
                 ],
               },
             ],

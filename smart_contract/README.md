@@ -1,3 +1,5 @@
+<!-- @format -->
+
 ## Simply Setup Hardhat
 
 These packages will help you in both small and large projects. They will assist you in testing, generating code coverage, determining contract size, and calculating contract gas fees/prices in USD.
@@ -43,7 +45,7 @@ So make sure to check your package's compatibility with other packages and use t
 
     npm install --save @openzeppelin/contracts @openzeppelin/contracts-upgradeable @openzeppelin/hardhat-upgrades@1.28.0
 
-## For Hardhat Setps: 
+## For Hardhat Setps:
 
     npx hardhat
 
@@ -76,9 +78,9 @@ Then, Set `ETHERSCAN API KEY`.
 
 You will get the ETHERSCAN API KEY from etherscan.io, for which you need to log in to etherscan.io. After logging in, go to the "https://etherscan.io/myapikey" website and create your API key there.
 
-#### ALCHEMY_GOERLI_API_KEY
+#### ALCHEMY_SEPOLIA_API_KEY
 
-You can get the ALCHEMY GOERLI API KEY either from Alchemy or create it from Infura. You have the option to create an API key from Alchemy based on your network preferences by visiting https://dashboard.alchemy.com/. Moreover, you can also use Alchemy's "faucet" feature to get test Ether for your Goerli network or other network.
+You can get the ALCHEMY SEPOLIA API KEY either from Alchemy or create it from Infura. You have the option to create an API key from Alchemy based on your network preferences by visiting https://dashboard.alchemy.com/. Moreover, you can also use Alchemy's "faucet" feature to get test Ether for your Sepolia network or other network.
 
 PRIVATE_KEY : You can obtain your private key from your public address in MetaMask.
 
@@ -98,52 +100,29 @@ PRIVATE_KEY : You can obtain your private key from your public address in MetaMa
 
 ## Add Ethereum Network into Metamask
 
-### Test Network 
+### Test Network
 
     Metamask Network Parameters
-    Network Name: Goerli test network
-    New RPC URL: https://goerli.infura.io/v3/
+    Network Name: Sepolia test network
+    New RPC URL: https://sepolia.infura.io/v3/
     Chain ID: 5
-    Currency Symbol: GoerliETH
-    Block Explorer URL: https://goerli.etherscan.io
+    Currency Symbol: SepoliaETH
+    Block Explorer URL: https://sepolia.etherscan.io
 
 ### Deploy:
 
-    npx hardhat run --network goerli scripts/deploy.ts
+    npx hardhat run --network sepolia scripts/deploy.ts
 
 ### Verify:
 
-    npx hardhat verify --network goerli <token.address>
+    npx hardhat verify --network sepolia <token.address>
 
 ---
 
-## Add Polygon Network into Metamask
+### Deploy
 
-### Testnet Network
-
-    Metamask Network Parameters
-
-    Network Name: Mumbai Testnet
-    New RPC URL: https://polygon-mumbai.g.alchemy.com/v2/<apikey>
-    Chain ID: 80001
-    Currency Symbol: MATIC
-    Block Explorer URL: https://mumbai.polygonscan.com/
-
-Deploy: npx hardhat run --network polygon_mumbai scripts/deploy.ts
-Verify: npx hardhat verify --network polygon_mumbai <token.address>
-
-### Mainnet Network
-
-    Network Name: Polygon Mainnet
-    New RPC URL: https://polygon-rpc.com/
-    Chain ID: 137
-    Currency Symbol: MATIC
-    Block Explorer URL: https://polygonscan.com/
-
-### Deploy 
-    
     npx hardhat run --network matic scripts/deploy.ts
 
 ### Verify
-    
+
     npx hardhat verify --network matic <token.address>
